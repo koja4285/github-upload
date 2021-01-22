@@ -17,7 +17,7 @@
 $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,8 +29,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
+
+    <?= $this->Html->css(['bootstrap', 'bootstrap.min', 'bootstrap.rtl', 'bootstrap.rtl.min']) ?>
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
 
+    <!-- Include external files and scripts here (See HTML helper for more info.) -->
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -41,6 +44,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
         <div class="top-nav-links">
+            <a target="_blank" rel="noopener" href="webroot/"
             <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
             <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
         </div>
@@ -53,5 +57,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </main>
     <footer>
     </footer>
+    <!-- Bootstrap Bundle with Popper -->
+    <?= $this->Html->script(['bootstrap.bundle', 'bootstrap.bundle.min']) ?>
 </body>
 </html>
