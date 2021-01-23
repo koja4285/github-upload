@@ -38,6 +38,8 @@
  @media screen and (max-width: 768px) {
     body > main > div > div > div.col-md-3 {
       margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid black;
     }
  }
 

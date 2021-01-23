@@ -82,7 +82,7 @@ $currentController = $this->request->getParam('controller');
 
     <main class="main">
         <div class="container">
-            <div class="row">
+            <div class="row pt-3">
                 <div class="col-md-9">
                     <?= $this->Flash->render() ?>
                     <?= $this->fetch('content') ?>
@@ -91,15 +91,13 @@ $currentController = $this->request->getParam('controller');
                     <h3 class="">
                         Website's Infomation
                     </h3>
-                    <ul class="">
-                        <table class="table table-borderless">
-                            <?= $this->Html->tableHeaders(['Visitors', 'Last update']) ?>
-                            <?= $this->Html->tableCells([
-                                $siteInfo['visit_count'],
-                                $modifedDateTime
-                            ]) ?>
-                        </table>
-                    </ul>
+                    <table class="table table-borderless">
+                        <?= $this->Html->tableHeaders(['Visitors', 'Last update']) ?>
+                        <?= $this->Html->tableCells([
+                            $siteInfo['visit_count'],
+                            $modifedDateTime
+                        ]) ?>
+                    </table>
                 </div>
             </div>
         </div>
