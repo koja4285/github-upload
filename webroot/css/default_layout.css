@@ -1,0 +1,53 @@
+/**
+ * Style sheet for default layout.
+ *
+ * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @author    Kohei Koja
+ */
+
+
+ /* navbar */
+ .navbar-brand {
+   font-size: 4.0rem;
+}
+
+.nav-item {
+   font-size: 3.0rem;
+}
+
+#navbarNav > ul {
+   width: 100%;
+}
+
+.button, button, dd, dt, li {
+   margin-bottom: 0;
+}
+
+
+ /* main */
+ body > main > div.container {
+    max-width: 130.0rem;
+ }
+
+ @media screen and (min-width: 768px) {
+    body > main > div > div > div.col-md-3 {
+       padding-left: 2.0rem;
+    }
+ }
+
+ @media screen and (max-width: 768px) {
+    body > main > div > div > div.col-md-3 {
+      margin-top: 1.5rem;
+    }
+ }
+
+
+ /* footer */
+ body > footer > p > a > span {
+   color: #404041;
+}
+
+body > footer > p > a {
+   font-size: 2.4rem;
+   color: #d33c43;
+}
