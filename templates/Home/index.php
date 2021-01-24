@@ -49,7 +49,7 @@ echo $this->Html->script('home', ['block' => 'script']);
     </div>
     <div class="row-photo row justify-content-end pt-3">
         <div class="col-4">
-            <?= $this->Html->image('formal.jpg', [
+            <?= $this->Html->image('home/formal.jpg', [
                 'alt' => 'formal',
                 'id' => 'photoOfMe',
                 'class' => [

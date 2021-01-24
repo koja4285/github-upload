@@ -15,20 +15,20 @@ function changePhoto(face)
     switch (face)
     {
         case 'smug1':
-            imgSrc = '/img/smug1.jpg';
+            imgSrc = '/img/home/smug1.jpg';
             break;
 
         case 'smug2':
-            imgSrc = '/img/smug2.jpg';
+            imgSrc = '/img/home/smug2.jpg';
             break;
 
         case 'smile':
-            imgSrc = '/img/smile.jpg';
+            imgSrc = '/img/home/smile.jpg';
             break;
 
         case 'formal':
         default:
-            imgSrc = '/img/formal.jpg';
+            imgSrc = '/img/home/formal.jpg';
             break;
             
     }
