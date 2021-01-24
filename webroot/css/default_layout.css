@@ -19,6 +19,10 @@
    width: 100%;
 }
 
+#external-link > a {
+   display: inline;
+}
+
 .button, button, dd, dt, li {
    margin-bottom: 0;
 }
