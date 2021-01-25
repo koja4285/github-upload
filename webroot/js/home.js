@@ -22,6 +22,10 @@ function changePhoto(face)
             imgSrc = '/img/home/smug2.jpg';
             break;
 
+        case 'smug3':
+            imgSrc = '/img/home/smug3.jpg';
+            break;
+
         case 'smile':
             imgSrc = '/img/home/smile.jpg';
             break;

@@ -18,11 +18,15 @@ echo $this->Html->css('koja_home', ['block' => 'css']);
 echo $this->Html->script('home', ['block' => 'script']);
 ?>
 
+<h1 class="">
+    Welcome to my website!
+</h1>
+
 <div class="purpose">
-    <h1 class="">
+    <h2 class="">
         The purpose of this website
-    </h1>
-    <div class="fs-2">
+    </h2>
+    <div class="fs-3">
     Hello, welcome to my website. There are several reasons why I decided to create this website.
         <ul class="">
             <li class="">
@@ -39,11 +43,46 @@ echo $this->Html->script('home', ['block' => 'script']);
     </div>
 </div>
 
+<div class="pt-5">
+    <h2 class="">
+        My Hobbies and interests
+    </h2>
+    <div class="fs-3">
+    I like working out. I started lifting weights when I was 19 years old. Since then, I liked to gain
+    some muscles on my body but recently, I got more into olympic weightlifting. Though I planned to 
+    start weightlifting in America, I still cannot find places to learn basics becuase of covid.<br><br>
+    Also, listening to music is one of my favorite things to do. I usually listen to Japanese songs. Here are
+    some of my most-liked artists.
+        <ul class="">
+            <li class="">
+                Kariyushi 58 (from Okinawa) &nbsp;
+                <a href="https://music.apple.com/us/artist/kariyushi-58/128915911" class="">
+                    Apple Music
+                </a>
+            </li>
+            <li class="">
+                Mongol 800 (from Okinawa) &nbsp;
+                <a href="https://music.apple.com/us/artist/mongol800/202191113" class="">
+                    Apple Music
+                </a>
+            </li>
+            <li class="">
+                Taiga Yogi (my friend) &nbsp;
+                <audio controls preload="none" class="py-3">
+                    <source src="audio/recording.m4a" type="audio/mp4" />
+                    <source src="audio/recording.mp3" type="audio/mp3" />
+                    Your browser does not support the <code>audio</code> element.
+                </audio>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div class="intro pt-5">
-    <h1 class="">
+    <h2 class="">
         About Me
-    </h1>
-    <div class="fs-2">
+    </h2>
+    <div class="fs-3">
         My name is Kohei (by the way, it's 'koh-hey' not 'koh-ee'). I'm from Okinawa, Japan,
         currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022.
     </div>
@@ -54,7 +93,7 @@ echo $this->Html->script('home', ['block' => 'script']);
                 'id' => 'photoOfMe',
                 'class' => [
                     'rounded-circle',
-                    'mx-auto d-block'
+                    'mx-auto d-block',
                 ]
             ]) ?>
         </div>
@@ -66,7 +105,7 @@ echo $this->Html->script('home', ['block' => 'script']);
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
-                onchange="changePhoto('smug1')">
+                onchange="changePhoto('smug3')">
                 <label class="form-check-label" for="flexRadioDefault2"> Smug 1 </label>
             </div>
             <div class="form-check">
