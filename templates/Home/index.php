@@ -56,13 +56,13 @@ echo $this->Html->script('home', ['block' => 'script']);
         <ul class="">
             <li class="">
                 Kariyushi 58 (from Okinawa) &nbsp;
-                <a href="https://music.apple.com/us/artist/kariyushi-58/128915911" class="">
+                <a href="https://music.apple.com/us/artist/kariyushi-58/128915911" target="_blank">
                     Apple Music
                 </a>
             </li>
             <li class="">
                 Mongol 800 (from Okinawa) &nbsp;
-                <a href="https://music.apple.com/us/artist/mongol800/202191113" class="">
+                <a href="https://music.apple.com/us/artist/mongol800/202191113" target="_blank">
                     Apple Music
                 </a>
             </li>
