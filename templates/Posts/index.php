@@ -30,7 +30,7 @@
             <?= $this->Html->link($post->title, ['action' => 'view', $post->slug]) ?>
         </td>
         <td>
-            <?= $post->created->format(DATE_RFC850) ?>
+            <?= $post->created->format(DATE_FORMAT) ?>
         </td>
     </tr>
     <?php endforeach; ?>
