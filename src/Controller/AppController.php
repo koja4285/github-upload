@@ -28,6 +28,10 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+
+    // Date format
+    const DATE_FORMAT = 'Y-m-d D H:i:s';
+
     /**
      * Initialization hook method.
      *
@@ -43,6 +47,9 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+
+        // Add this line to check authentication result and lock your site
+        $this->loadComponent('Authentication.Authentication');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
