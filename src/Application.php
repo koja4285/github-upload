@@ -81,7 +81,7 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
-        $this->adddPlugin('Authorization');
+        $this->addPlugin('Authorization');
     }
 
     /**
