@@ -21,12 +21,28 @@ use App\Controller\AppController;
 
 class HomeController extends AppController
 {
+
+    /**
+     * Initilize method
+     * 
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        // Authentication removal
+        $this->Authentication->addUnauthenticatedActions(['index']);
+    }
+
+
     /**
      * Index of home page.
      */
-    public function index()
+    public function index() : void
     {
-
+        // Authorization check
+        $this->Authorization->skipAuthorization();
     }
 }
 ?>

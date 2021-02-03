@@ -42,7 +42,7 @@ use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
-
+use \Authorization\Exception\ForbiddenException;
 
 /**
  * Application setup class.
@@ -81,6 +81,7 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('Authentication');
         $this->addPlugin('Authorization');
     }
 
@@ -125,8 +126,32 @@ class Application extends BaseApplication
             ->add(new AuthenticationMiddleware($this))
         
             // Add authorization **after** authentication
-            ->add(new AuthorizationMiddleware($this));
+            // ->add(new AuthorizationMiddleware($this));
+            // Later, I want to see how below code works.
+            ->add(new AuthorizationMiddleware($this, [
+                'unauthorizedHandler' => [
+                    'className' => 'Authorization.Redirect',
+                    'url' => '/posts',
+                    'queryParam' => 'redirectUrl',
+                    'exceptions' => [
+                        \Authorization\Exception\MissingIdentityException::class,
+                        \Authorization\Exception\ForbiddenException::class
+                    ],
+                ],
+            ]));
 
+
+            // Skip authorization for DebugKit
+            if (Configure::read('debug')) {
+                $middlewareQueue->add(function ($req, $res, $next) {
+                    if ($req->getParam('plugin') === 'DebugKit')
+                    {
+                        $req->getAttribute('authorization')->skipAuthorization();
+                    }
+                    return $next($req, $res);
+                });
+            }
+    
         return $middlewareQueue;
     }
 
@@ -171,24 +196,25 @@ class Application extends BaseApplication
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $authenticationService = new AuthenticationService([
-            'unauthenticatedRedirect' => '/users/login',
+            'unauthenticatedRedirect' => '/posts',
             'queryParam' => 'redirect',
         ]);
 
-        // Load identifiers, ensure we check email and password fields
+        // Load identifiers, ensure we check username and password fields
         $authenticationService->loadIdentifier('Authentication.Password', [
             'fields' => [
-                'username' => 'email',
+                'username' => 'username',
                 'password' => 'password',
             ]
         ]);
 
         // Load the authenticators, you want session first
         $authenticationService->loadAuthenticator('Authentication.Session');
-        // Configure form data check to pick email and password
+
+        // Configure form data check to pick username and password
         $authenticationService->loadAuthenticator('Authentication.Form', [
             'fields' => [
-                'username' => 'email',
+                'username' => 'username',
                 'password' => 'password',
             ],
             'loginUrl' => '/users/login',
