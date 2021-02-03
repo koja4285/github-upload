@@ -28,6 +28,10 @@ class PostsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
+
+        // Authentication removal
+        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
+
     }
 
     /**
@@ -36,15 +40,19 @@ class PostsController extends AppController
      */
     public function index()
     {
+        // Authorization check
+        $this->Authorization->skipAuthorization();
+
+
         // Takes up to three posts within last week.
         // The posts are used as latest posts.
         // "\" specifies default namespace.
         $today = new \DateTime('now', new \DateTimeZone('America/New_York'));
-        $threeDaysAgo = $today->sub(new \DateInterval('P3D'));
+        $aWeekAgo = $today->sub(new \DateInterval('P7D'))->format('Y-m-d');
         $latest = $this->Posts->find()
             ->limit(3)
             ->order(['created' => 'DESC'])
-            ->where(['created >=' => $threeDaysAgo])
+            ->where(['created >=' => $aWeekAgo])
             ->toArray();
         $this->set(compact('latest'));
 
