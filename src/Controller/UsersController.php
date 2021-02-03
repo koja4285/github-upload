@@ -27,16 +27,24 @@ namespace App\Controller;
 class UsersController extends AppController
 {
 
-
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    /**
+     * Initilize method
+     * 
+     * @return void
+     */
+    public function initialize(): void
     {
-        parent::beforeFilter($event);
+        parent::initialize();
+
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['login']);
-    }
+        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
 
-    
+        // Configure Authorization actions
+        $this->Authorization->skipAuthorization(['login']);
+
+        // $this->Authorization->authorizeModel('index');
+    }    
     
     /**
      * Index method
@@ -45,26 +53,37 @@ class UsersController extends AppController
      */
     public function index()
     {
+        // Authorization: Check if the user is admin
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+        
         $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
+        $this->set(compact('users'));    
     }
 
 
     /**
-     * Login method 
+     * Login method.
+     * This is unauthenticated method.
      */
     public function login()
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
+
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
-            // redirect to /articles after login success
-            $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'Articles',
-                'action' => 'index',
-            ]);
+            // redirect to /posts after login success
+            $redirect = $this->Authentication->getLoginRedirect();
+            if (!$redirect)
+            {
+                // If redirect is null (which is unlikely...), manually
+                // construct redirect URL.
+                $redirect = $this->request->getQuery('redirect', [
+                    'controller' => 'Posts',
+                    'action' => 'index',
+                ]);
+            }
     
             return $this->redirect($redirect);
         }
@@ -80,11 +99,13 @@ class UsersController extends AppController
      */
     public function logout()
     {
+        // If user is not logged in, redirect to unauthenticatedRedirect
         $result = $this->Authentication->getResult();
+
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
             $this->Authentication->logout();
-            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+            return $this->redirect(['controller' => 'Posts', 'action' => 'index']);
         }
     }
     
@@ -99,20 +120,53 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        // Authorization: Check if the user is admin
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+
         $user = $this->Users->get($id, [
             'contain' => ['Comments'],
         ]);
-
         $this->set(compact('user'));
     }
 
+
+
     /**
-     * Add method
-     *
+     * Add method. Basically sign up method.
+     * This is unauthenticated method.
+     * 
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
+        // If user is already logged in, redirect to unauthenticatedRedirect
+        // unless the user is admin
+        $result = $this->Authentication->getResult();
+        if ($result->isValid())
+        {
+            // Authorization: Check if user is not admin
+            $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+            if (! $this->Authorization->can($thisUser, 'beAdmin'))
+            {
+                // redirect to /posts after login success
+                $redirect = $this->Authentication->getLoginRedirect();
+                if (!$redirect)
+                {
+                    // If redirect is null (which is unlikely...), manually
+                    // construct redirect URL.
+                    $redirect = $this->request->getQuery('redirect', [
+                        'controller' => 'Posts',
+                        'action' => 'index',
+                    ]);
+                }
+        
+                return $this->redirect($redirect);
+            }
+                
+        }
+
+        // Unlogged in user or admin can reach here.
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -135,6 +189,11 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        // Authorization: Check if the user is admin or oneself
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'edit');
+
+
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -159,14 +218,32 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+        // Authorization: Check if the user is admin or oneself
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'delete');
+
+        try
+        {
+            $this->request->allowMethod(['post', 'delete']);
+            $user = $this->Users->get($id);
+            if ($this->Users->delete($user)) {
+                $this->Flash->success(__('The user has been deleted.'));
+            } else {
+                $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            }
+    
+        }
+        catch (MethodNotAllowedException $e)
+        {
+            $this->Flash->error(__('GET HTTP method is not allowed.'));
+        }
+        finally
+        {
+            return $this->redirect([
+                'controller' => 'Posts',
+                'action' => 'index',
+            ]);
         }
 
-        return $this->redirect(['action' => 'index']);
     }
 }
