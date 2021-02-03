@@ -35,6 +35,7 @@ class PostPolicy
      */
     public function canAdd(IdentityInterface $user, Post $post)
     {
+        return _isAdmin($user);
     }
 
     /**
@@ -46,6 +47,7 @@ class PostPolicy
      */
     public function canEdit(IdentityInterface $user, Post $post)
     {
+        return _isAdmin($user);
     }
 
     /**
@@ -57,6 +59,7 @@ class PostPolicy
      */
     public function canDelete(IdentityInterface $user, Post $post)
     {
+        return _isAdmin($user);
     }
 
     /**
@@ -68,5 +71,18 @@ class PostPolicy
      */
     public function canView(IdentityInterface $user, Post $post)
     {
+        return true;
     }
+
+    /**
+     * Check if the user is admin or not
+     * 
+     * @param \Authorization\IdentityInterface $user The user.
+     * @return bool
+     */
+    private function _isAdmin(IdentityInterface $user)
+    {
+        return $user->role === 'admin';
+    }
+
 }
