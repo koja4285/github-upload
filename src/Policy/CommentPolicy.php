@@ -35,6 +35,7 @@ class CommentPolicy
      */
     public function canAdd(IdentityInterface $user, Comment $comment)
     {
+        return true;
     }
 
     /**
@@ -46,6 +47,7 @@ class CommentPolicy
      */
     public function canEdit(IdentityInterface $user, Comment $comment)
     {
+        return _isAdmin($user) || _isAuthor($user, $comment);
     }
 
     /**
@@ -57,6 +59,7 @@ class CommentPolicy
      */
     public function canDelete(IdentityInterface $user, Comment $comment)
     {
+        return _isAdmin($user) || _isAuthor($user, $comment);
     }
 
     /**
@@ -68,5 +71,29 @@ class CommentPolicy
      */
     public function canView(IdentityInterface $user, Comment $comment)
     {
+        return true;
+    }
+
+    /**
+     * Check if the user is admin or not
+     * 
+     * @param \Authorization\IdentityInterface $user The user.
+     * @return bool
+     */
+    private function _isAdmin(IdentityInterface $user)
+    {
+        return $user->role === 'admin';
+    }
+
+
+    /**
+     * Check if the user is author or not
+     * 
+     * @param \Authorization\IdentityInterface $user The user.
+     * @return bool
+     */
+    private function _isAuthor(IdentityInterface $user, Comment $comment)
+    {
+        return $user->getIdentifier() === $comment->user_id;
     }
 }
