@@ -135,6 +135,7 @@ class UsersController extends AppController
     /**
      * Add method. Basically sign up method.
      * This is unauthenticated method.
+     * Only admin and unlogged-in user can add (or sign up) a user.
      * 
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -183,30 +184,38 @@ class UsersController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id User id.
+     * @param string|null $field field name to change.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($field = null)
     {
         // Authorization: Check if the user is admin or oneself
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'edit');
 
 
-        $user = $this->Users->get($id, [
+        // Takes logged in user.
+        $user = $this->Users->get($thisUser->getIdentifier(), [
             'contain' => [],
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+
+        if ($this->request->is(['patch', 'post', 'put']))
+        {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
+            /**
+             * @todo old password validation
+             */
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $thisUser->getIdentifier()]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set(compact('user', 'field'));
     }
 
     /**

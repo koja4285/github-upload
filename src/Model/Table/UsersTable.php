@@ -68,20 +68,21 @@ class UsersTable extends Table
             ->scalar('username')
             ->lengthBetween('username', [4, 32], __('The length must be between 4 and 32.'))
             ->notEmptyString('username', __('Fill out this field.'))
-            // ->notBlank('username', __('Cannot contain white space.'))
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
             ->lengthBetween('password', [4, 32], __('The length must be between 4 and 32.'))
-            ->notBlank('password', __('Cannot contain white space.'))
+            /**
+             * @todo white space validation
+             */
+            // ->regex('password', '^(?!.* )(?=.*[a-zA-Z0-9])', __('Cannot contain white space'))
             ->notEmptyString('password', __('Fill out this field.'));
 
         $validator
             ->scalar('password_confirm')
             ->lengthBetween('password_confirm', [4, 32], __('The length must be between 4 and 32.'))
-            ->notBlank('password_confirm', __('Cannot contain white space.'))
-            ->sameAs('password_confirm', 'password', __('Does not match with password.'))
+            ->sameAs('password_confirm', 'password', __('Password does not match.'))
             ->notEmptyString('password_confirm', __('Fill out this field.'));
 
         $validator
@@ -93,32 +94,6 @@ class UsersTable extends Table
             ->email('email')
             ->notBlank('email', __('Cannot contain white space.'))
             ->allowEmptyString('email');
-
-        return $validator;
-    }
-
-        /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationEdit(Validator $validator): Validator
-    {
-        $validator = validationDefault($validator);
-
-        $validator
-            ->scalar('new_password')
-            ->lengthBetween('new_password', [4, 32], __('The length must be between 4 and 32.'))
-            ->notBlank('new_password', __('Cannot contain white space.'))
-            ->notEmptyString('new_password', __('Fill out this field.'));
-
-        $validator
-            ->scalar('new_password_confirm')
-            ->lengthBetween('new_password_confirm', [4, 32], __('The length must be between 4 and 32.'))
-            ->notBlank('new_password_confirm', __('Cannot contain white space.'))
-            ->sameAs('new_password_confirm', 'new_password', __('Does not match with password.'))
-            ->notEmptyString('new_password_confirm', __('Fill out this field.'));
 
         return $validator;
     }
