@@ -27,5 +27,5 @@
     <?= $this->Form->submit(__('Login')); ?>
     <?= $this->Form->end() ?>
 
-    <?= $this->Html->link("Add User", ['action' => 'add']) ?>
+    You don't have an account? <?= $this->Html->link("Register here", ['action' => 'add']) ?>
 </div>

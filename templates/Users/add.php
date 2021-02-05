@@ -27,7 +27,7 @@
 <div class="row">
     <aside class="column">
         <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
+            <!-- <h4 class="heading"><?= __('Actions') ?></h4> -->
             <?= $this->Html->link(__('Back to blog home'),
                 ['controller' => 'posts', 'action' => 'index'],
                 ['class' => 'side-nav-item']) ?>
