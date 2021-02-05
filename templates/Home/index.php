@@ -53,7 +53,8 @@ echo $this->Html->script('home', ['block' => 'script']);
     start weightlifting in America, I still cannot find places to learn basics becuase of covid.<br><br>
     I'm into cars, too. Especially what people call JDM(Japanese Dometic Market) cars. My most favorite car is
     Toyots's Chaser (JZX100). Of course Cresta and MarkII are nice as well. My grandfather recently gave up
-    his MarkII (GX100), one of my dreams is to cutomize his car, like swapping engines(G->1JZ) and transmissions.<br><br>
+    his MarkII (GX100), one of my dreams is to cutomize his car, like swapping engines(G->1JZ) and transmissions 
+    and go like ... vuuuuuuuu⤴︎ pshusllshsuslsus⤵︎<br><br>
     Also, listening to music is one of my favorite things to do. I usually listen to Japanese songs. Here are
     some of my most-liked artists.
         <ul class="">
