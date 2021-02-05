@@ -33,7 +33,7 @@
                 ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
-    <div class="column-responsive column-80">
+    <div class="column-responsive">
         <div class="users form content">
             <?= $this->Form->create($user) ?>
             <fieldset>

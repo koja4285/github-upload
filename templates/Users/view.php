@@ -23,7 +23,7 @@
             ) ?>
         </div>
     </aside>
-    <div class="column-responsive column-80">
+    <div class="column-responsive">
         <div class="users view content">
             <h3><?= h($user->username) . __('\'s Information') ?></h3>
             <table>
