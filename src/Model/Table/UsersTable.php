@@ -68,7 +68,7 @@ class UsersTable extends Table
             ->scalar('username')
             ->lengthBetween('username', [4, 32], __('The length must be between 4 and 32.'))
             ->notEmptyString('username', __('Fill out this field.'))
-            ->notBlank('username', __('Cannot contain white space.'))
+            // ->notBlank('username', __('Cannot contain white space.'))
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
