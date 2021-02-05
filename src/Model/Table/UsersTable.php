@@ -66,22 +66,59 @@ class UsersTable extends Table
 
         $validator
             ->scalar('username')
-            ->maxLength('username', 32)
-            ->notEmptyString('username')
+            ->lengthBetween('username', [4, 32], __('The length must be between 4 and 32.'))
+            ->notEmptyString('username', __('Fill out this field.'))
+            ->notBlank('username', __('Cannot contain white space.'))
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 255)
-            ->notEmptyString('password');
+            ->lengthBetween('password', [4, 32], __('The length must be between 4 and 32.'))
+            ->notBlank('password', __('Cannot contain white space.'))
+            ->notEmptyString('password', __('Fill out this field.'));
+
+        $validator
+            ->scalar('password_confirm')
+            ->lengthBetween('password_confirm', [4, 32], __('The length must be between 4 and 32.'))
+            ->notBlank('password_confirm', __('Cannot contain white space.'))
+            ->sameAs('password_confirm', 'password', __('Does not match with password.'))
+            ->notEmptyString('password_confirm', __('Fill out this field.'));
 
         $validator
             ->scalar('role')
+            ->equals('role', 'guest', __('User must be a guest.'))   // Now, you cannot create admin.
             ->notEmptyString('role');
 
         $validator
             ->email('email')
+            ->notBlank('email', __('Cannot contain white space.'))
             ->allowEmptyString('email');
+
+        return $validator;
+    }
+
+        /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationEdit(Validator $validator): Validator
+    {
+        $validator = validationDefault($validator);
+
+        $validator
+            ->scalar('new_password')
+            ->lengthBetween('new_password', [4, 32], __('The length must be between 4 and 32.'))
+            ->notBlank('new_password', __('Cannot contain white space.'))
+            ->notEmptyString('new_password', __('Fill out this field.'));
+
+        $validator
+            ->scalar('new_password_confirm')
+            ->lengthBetween('new_password_confirm', [4, 32], __('The length must be between 4 and 32.'))
+            ->notBlank('new_password_confirm', __('Cannot contain white space.'))
+            ->sameAs('new_password_confirm', 'new_password', __('Does not match with password.'))
+            ->notEmptyString('new_password_confirm', __('Fill out this field.'));
 
         return $validator;
     }
@@ -95,8 +132,14 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['username']), ['errorField' => 'username']);
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+        $rules->add($rules->isUnique(['username']), [
+            'errorField' => 'username',
+            'message' => __('This username is already used by other user')
+            ]);
+        $rules->add($rules->isUnique(['email']), [
+            'errorField' => 'email',
+            'message' => __('This e-mail address is already in use.')
+            ]);
 
         return $rules;
     }
