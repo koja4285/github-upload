@@ -26,10 +26,18 @@ function changePhoto(face)
             imgSrc = '/img/home/smug3.jpg';
             break;
 
+        case 'huh':
+            imgSrc = '/img/home/happyHalloween.jpg';
+            break;
+
+        case 'dream':
+            imgSrc = '/img/home/idealDoppelganger.jpg';
+            break;
+    
         case 'smile':
             imgSrc = '/img/home/smile.jpg';
             break;
-
+        
         case 'formal':
         default:
             imgSrc = '/img/home/formal.jpg';

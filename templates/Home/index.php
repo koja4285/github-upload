@@ -87,7 +87,8 @@ echo $this->Html->script('home', ['block' => 'script']);
     </h2>
     <div class="fs-3">
         My name is Kohei (by the way, it's 'koh-hey' not 'koh-ee'). I'm from Okinawa, Japan,
-        currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022.
+        currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022...
+        I mean ... hopefully.
     </div>
     <div class="row-photo row justify-content-end pt-3">
         <div class="col-4">
@@ -104,7 +105,7 @@ echo $this->Html->script('home', ['block' => 'script']);
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" 
                 onchange="changePhoto('formal')" checked>
-                <label class="form-check-label" for="flexRadioDefault1"> When I'm playing poker </label>
+                <label class="form-check-label" for="flexRadioDefault1"> Formal AF </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 
@@ -118,8 +119,18 @@ echo $this->Html->script('home', ['block' => 'script']);
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" 
+                onchange="changePhoto('huh')">
+                <label class="form-check-label" for="flexRadioDefault4"> When I'm playing poker </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5" 
+                onchange="changePhoto('dream')">
+                <label class="form-check-label" for="flexRadioDefault5"> Me in my dream </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault6" 
                 onchange="changePhoto('smile')">
-                <label class="form-check-label" for="flexRadioDefault4"> Smile </label>
+                <label class="form-check-label" for="flexRadioDefault6"> Smile </label>
             </div>
         </div>
     </div>
