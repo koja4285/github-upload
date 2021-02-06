@@ -32,6 +32,9 @@ class PostsController extends AppController
         // Authentication removal
         $this->Authentication->addUnauthenticatedActions(['index', 'view']);
 
+        // Configure Authorization actions
+        $this->Authorization->skipAuthorization(['index', 'view']);
+
     }
 
     /**
@@ -40,8 +43,13 @@ class PostsController extends AppController
      */
     public function index()
     {
-        // Authorization check
-        $this->Authorization->skipAuthorization();
+        // Authentication: Check if user is logged in
+        $result = $this->Authentication->getResult();
+        if ($result->isValid())
+        {
+            $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+            $this->set(compact('thisUser'));
+        }
 
 
         // Takes up to three posts within last week.
@@ -49,24 +57,84 @@ class PostsController extends AppController
         // "\" specifies default namespace.
         $today = new \DateTime('now', new \DateTimeZone('America/New_York'));
         $aWeekAgo = $today->sub(new \DateInterval('P7D'))->format('Y-m-d');
-        $latest = $this->Posts->find()
+        $latests = $this->Posts->find()
             ->limit(3)
             ->order(['created' => 'DESC'])
             ->where(['created >=' => $aWeekAgo])
             ->toArray();
-        $this->set(compact('latest'));
+        $this->set(compact('latests'));
 
 
 
 
-        $posts = $this->Paginator->paginate($this->Posts->find());
+        $posts = $this->Paginator->paginate(
+            $this->Posts->find()
+                ->order(['created' => 'DESC'])
+        );
         $this->set(compact('posts'));
     }
 
+    /**
+     * View method.
+     * Anybody can view any blog.
+     */
     public function view($slug = null)
     {
         $post = $this->Posts->findBySlug($slug)->firstOrFail();
         $this->set(compact('post'));
+    }
+
+
+    /**
+     * Add method.
+     * Only admin can add a post.
+     */
+    public function add()
+    {
+        // Authorization: Check if the user is admin
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+
+        $post = $this->Posts->newEmptyEntity();
+
+        if ($this->request->is('post'))
+        {
+            // Set up slug.
+            // Slug is hyphen-based title instead of space-based.
+            // e.g.) title: "this is title" => slug: "this-is-title"
+            $data = $this->request->getData();
+            $data['slug'] = str_replace(' ', '-', trim(strtolower($data['title'])));
+
+            // Uppercase the first character of each word in a title
+            $data['title'] = ucwords($data['title']);
+
+            $post = $this->Posts->patchEntity($post, $data);
+            if ($this->Posts->save($post))
+            {
+                $this->Flash->success(__('Successfully added a new post!'));
+                return $this->redirect(['action' => 'index']);
+            }
+            else
+            {
+                $this->Flash->error(__('Could not add a new post'));
+            }
+        }
+
+        $this->set(compact('post'));
+
+    }
+
+    /**
+     * Edit method.
+     * Only admin can edit a post.
+     *
+     * @param integer|null $id field name to change.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        
     }
 
 }

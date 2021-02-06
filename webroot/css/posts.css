@@ -1,0 +1,67 @@
+/**
+* Style sheet for home page.
+* Since there is a default "home.css" file,
+* I named this file as "koja_home.css".
+*
+* @license   https://opensource.org/licenses/mit-license.php MIT License
+* @author    Kohei Koja
+*/
+
+/* 
+#username-link {
+    color: #606c76;
+}
+
+#username-link:hover {
+    text-decoration: underline;
+} */
+
+
+/* add */
+#blog-body {
+    height: 40rem;
+}
+
+
+/* index */
+
+#latest-card {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+#dummy {
+    margin-top: 100%;
+    /* 1:1 aspect ratio */
+}
+
+#latest-img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#latest-posts-theme {
+    border-top: 2px solid black;
+    padding-top: 2rem;
+}
+
+/* black texts inside <a> tag */
+#text-black {
+    color: black;
+}
+
+/* [START] card zoom when hovered */
+.card {
+    transition: all 0.2s ease;
+    cursor: pointer
+}
+
+.card:hover {
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+    transform: scale(1.05)
+}
+/* [END] card zoom when hovered */
