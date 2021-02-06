@@ -14,8 +14,6 @@
  * @author    Kohei Koja
  */
 
-use Cake\Routing\Router;
-
 echo $this->Html->css('posts', ['block' => 'css']);
 ?>
 
@@ -84,7 +82,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
   <div class="row">
     <?php foreach($latests as $latest): ?>
         <div class="col-md-4">
-            <a href="<?= Router::url(['action' => 'view', $latest->slug]) ?>" id="text-black">
+            <a href="<?= $this->Url->build(['action' => 'view', $latest->slug]) ?>" id="text-black">
                 <div class="card" id="latest-card">
                     <div id="dummy"></div>
                     <img src="img/posts/bingata<?= rand(1, 4) ?>" class="card-img-top" alt="Latest Post" id="latest-img">
@@ -108,7 +106,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
 
 <h3 class="mt-5">All Posts</h3>
 <?php foreach ($posts as $post): ?>
-    <a href="<?= Router::url(['action' => 'view', $post->slug]) ?>" id="text-black">
+    <a href="<?= $this->Url->build(['action' => 'view', $post->slug]) ?>" id="text-black">
         <div class="card mb-3"">
             <div class="row g-0">
                 <div class="col-md-1">
