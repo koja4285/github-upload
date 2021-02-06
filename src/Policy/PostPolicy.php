@@ -62,17 +62,17 @@ class PostPolicy
         return _isAdmin($user);
     }
 
-    /**
-     * Check if $user can view Post
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Post $post
-     * @return bool
-     */
-    public function canView(IdentityInterface $user, Post $post)
-    {
-        return true;
-    }
+    // /**
+    //  * Check if $user can view Post
+    //  *
+    //  * @param \Authorization\IdentityInterface $user The user.
+    //  * @param \App\Model\Entity\Post $post
+    //  * @return bool
+    //  */
+    // public function canView(IdentityInterface $user, Post $post)
+    // {
+    //     return true;
+    // }
 
     /**
      * Check if the user is admin or not

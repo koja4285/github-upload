@@ -99,7 +99,7 @@ class UserPolicy
     // }
 
     /**
-     * Check if $user can delete User
+     * [public] Check if $user is admin
      *
      * @param \Authorization\IdentityInterface $user The user.
      * @param \App\Model\Entity\User $resource
