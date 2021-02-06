@@ -42,8 +42,6 @@ class UsersController extends AppController
 
         // Configure Authorization actions
         $this->Authorization->skipAuthorization(['login']);
-
-        // $this->Authorization->authorizeModel('index');
     }    
     
     /**
