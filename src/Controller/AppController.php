@@ -29,9 +29,6 @@ use Cake\Controller\Controller;
 class AppController extends Controller
 {
 
-    // Date format
-    const DATE_FORMAT = 'Y-m-d D H:i:s';
-
     /**
      * Initialization hook method.
      *
