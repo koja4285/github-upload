@@ -72,10 +72,10 @@ $currentController = $this->request->getParam('controller');
                     </li>
                     <li class="nav-item" id="external-link">
                         <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/koheikoja">
-                            <img src="img/LI-In-Bug.png" alt="LinkedIn" width="45" height="36">
+                            <img src="/img/LI-In-Bug.png" alt="LinkedIn" width="45" height="36">
                         </a>
                         <a class="nav-link" target="_blank" href="https://www.github.com/koja4285">
-                            <img src="img/GitHub-Mark-64px.png" alt="GitHub" width="45" height="45">
+                            <img src="/img/GitHub-Mark-64px.png" alt="GitHub" width="45" height="45">
                         </a>
                     </li>
                 </ul>

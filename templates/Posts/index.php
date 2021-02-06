@@ -85,7 +85,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
             <a href="<?= $this->Url->build(['action' => 'view', $latest->slug]) ?>" id="text-black">
                 <div class="card" id="latest-card">
                     <div id="dummy"></div>
-                    <img src="img/posts/bingata<?= rand(1, 4) ?>" class="card-img-top" alt="Latest Post" id="latest-img">
+                    <img src="/img/posts/bingata<?= rand(1, 4) ?>" class="card-img-top" alt="Latest Post" id="latest-img">
                     <div class="card-body">
                         <h5 class="card-title"><?= $latest->created->format('Y-m-d') ?></h5>
                         <p class="card-text mb-3"><?= h($latest->title) ?></p>
@@ -110,7 +110,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
         <div class="card mb-3"">
             <div class="row g-0">
                 <div class="col-md-1">
-                    <img src="img/posts/okinawa_symbol" alt="(^_^)">
+                    <img src="/img/posts/okinawa_symbol" alt="(^_^)">
                 </div>
                 <div class="col-md-11">
                     <div class="card-body">
