@@ -33,7 +33,9 @@ $currentController = $this->request->getParam('controller');
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
 
-    <?= $this->Html->css('bootstrap') ?>
+
+    <?= $this->Html->css('bootstrap/bootstrap.min') ?>     <!-- bootstrap  -->
+    <?= $this->Html->css('summernote/summernote.min') ?>   <!-- summernote -->
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
     <?= $this->Html->css(['default_layout']) ?>
 
@@ -109,6 +111,7 @@ $currentController = $this->request->getParam('controller');
         <p class="mb-1">poweredBy <a href="https://cakephp.org"><span>Cake</span>PHP</a></p>
     </footer>    </footer>
     <!-- Bootstrap Bundle with Popper -->
-    <?= $this->Html->script('bootstrap.bundle') ?>
+    <?= $this->Html->script('bootstrap/bootstrap.bundle.min') ?> <!-- bootstrap  -->
+    <?= $this->Html->script('summernote/summernote.min') ?>      <!-- summernote -->
 </body>
 </html>
