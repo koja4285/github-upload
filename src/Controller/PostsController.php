@@ -108,6 +108,12 @@ class PostsController extends AppController
             // Uppercase the first character of each word in a title
             $data['title'] = ucwords($data['title']);
 
+            // copy editordata to body
+            $data['body'] = $data['editordata'];
+            unset($data['editordata']);
+
+            debug($data); return;
+            
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post))
             {
@@ -134,7 +140,60 @@ class PostsController extends AppController
      */
     public function edit($id = null)
     {
-        
+        // Authorization: Check if the user is admin
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+    }
+
+
+    /**
+     * Upload file method.
+     * Only admin can upload a file.
+     * Processed as ajax request.
+     * @todo complete this method
+     */
+    public function upload()
+    {
+        // Authorization: Check if the user is admin
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+
+        // $this->autoRender = false;
+
+        if ($this->request->is(['post']))
+        {
+            debug($this->request->getData());
+            $fileObj = new \SplFileObject($this->request->getData('form')['file']['tmp_name']);
+
+            // The format of filename is "yyyy-mm-dd-hh-mm-ss.fileExtension".
+            $fileExtension = $fileObj->getExtension();
+            $filename = (new \DateTime('now'))->format('Y-m-d-H-i-s') . $fileExtension;
+
+            // Change target directory based on file extension.
+            switch ($fileExtension)
+            {
+                case 'jpg'  :
+                case 'jpeg' :
+                case 'png'  :
+                    $dir = 'img';
+                    break;
+
+                default :
+                    $dir = 'uploads';
+                    break;
+            }
+            $fileUrl = ROOT . DS . $dir . DS . 'uploads' . DS . $filename;
+
+            // Upload file
+            if (move_uploaded_file($fileObj->getFilename(), $fileUrl))
+            {
+                echo $fileUrl;
+            }
+            else
+            {
+                echo false;
+            }
+        }
     }
 
 }
