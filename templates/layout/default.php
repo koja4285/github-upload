@@ -39,6 +39,13 @@ $currentController = $this->request->getParam('controller');
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
     <?= $this->Html->css(['default_layout']) ?>
 
+    <!-- CSRF Token set -->
+    <?= $this->Html->scriptBlock(sprintf(
+        'var csrfToken = %s;',
+        json_encode($this->request->getAttribute('csrfToken'))
+    )); ?>
+
+
     <!-- Include external files and scripts here (See HTML helper for more info.) -->
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -109,9 +116,14 @@ $currentController = $this->request->getParam('controller');
     </main>
     <footer class="my-5 pt-5 text-muted text-center">
         <p class="mb-1">poweredBy <a href="https://cakephp.org"><span>Cake</span>PHP</a></p>
-    </footer>    </footer>
+    </footer>
+
     <!-- Bootstrap Bundle with Popper -->
-    <?= $this->Html->script('bootstrap/bootstrap.bundle.min') ?> <!-- bootstrap  -->
-    <?= $this->Html->script('summernote/summernote.min') ?>      <!-- summernote -->
+    <?= $this->Html->script('bootstrap/bootstrap.bundle.min') ?>
+
+    <?= $this->fetch('summernote') ?>
+
+    <?= $this->fetch('css_end') ?>
+    <?= $this->fetch('script_end') ?>
 </body>
 </html>
