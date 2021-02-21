@@ -1,0 +1,28 @@
+/**
+* Style sheet for portfolio page.
+*
+* @license   https://opensource.org/licenses/mit-license.php MIT License
+* @author    Kohei Koja
+*/
+
+
+.code {
+    background-color: #212529!important;
+    color: #fff!important;
+    font-family: monospace,monospace;
+    /* background: #f4f5f6; */
+    border-radius: .4rem;
+    font-size: 86%;
+    margin: 0 .2rem;
+    padding: .2rem .5rem;
+    white-space: nowrap;
+}
+
+div.paragraph, p.paragraph {
+    font-size: 1.5rem!important;
+    margin-bottom: 2rem;
+}
+
+h3 {
+    margin-bottom: 0rem;
+}
