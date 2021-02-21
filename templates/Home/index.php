@@ -22,11 +22,11 @@ echo $this->Html->script('home', ['block' => 'script']);
     Welcome to my website!
 </h1>
 
-<div class="purpose">
+<div id="purpose">
     <h2 class="">
         The purpose of this website
     </h2>
-    <div class="fs-3">
+    <div class="paragraph">
     Hello, welcome to my website. There are several reasons why I decided to create this website.
         <ul class="">
             <li class="">
@@ -43,11 +43,11 @@ echo $this->Html->script('home', ['block' => 'script']);
     </div>
 </div>
 
-<div class="pt-5">
+<div class="pt-5" id="interest">
     <h2 class="">
         My Hobbies and interests
     </h2>
-    <div class="fs-3">
+    <div class="paragraph">
     I like working out. I started lifting weights when I was 19 years old. Since then, I liked to gain
     some muscles on my body but recently, I got more into olympic weightlifting. Though I planned to 
     start weightlifting in America, I still cannot find places to learn basics becuase of covid.<br><br>
@@ -86,7 +86,7 @@ echo $this->Html->script('home', ['block' => 'script']);
     <h2 class="">
         About Me
     </h2>
-    <div class="fs-3">
+    <div class="paragraph">
         My name is Kohei (by the way, it's 'koh-hey' not 'koh-ee'). I'm from Okinawa, Japan,
         currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022...
         I mean ... hopefully.
@@ -118,16 +118,16 @@ echo $this->Html->script('home', ['block' => 'script']);
                 onchange="changePhoto('smug2')">
                 <label class="form-check-label" for="flexRadioDefault3"> When I'm home alone </label>
             </div>
-            <div class="form-check">
+            <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" 
                 onchange="changePhoto('huh')">
                 <label class="form-check-label" for="flexRadioDefault4"> When I'm playing poker </label>
-            </div>
-            <div class="form-check">
+            </div> -->
+            <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5" 
                 onchange="changePhoto('dream')">
                 <label class="form-check-label" for="flexRadioDefault5"> Me in my dream </label>
-            </div>
+            </div> -->
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault6" 
                 onchange="changePhoto('smile')">

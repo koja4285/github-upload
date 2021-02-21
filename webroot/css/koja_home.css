@@ -24,3 +24,16 @@
 .form-check {
     max-height: 3.5rem;
 }
+
+div.paragraph, p.paragraph {
+    font-size: 1.5rem!important;
+    margin-bottom: 2rem;
+}
+
+h2, h3 {
+    margin-bottom: 0rem;
+}
+
+.form-check > .form-check-label {
+    font-size: 1.25rem;
+}
