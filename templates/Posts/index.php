@@ -77,6 +77,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
     </p>
 </div>
 
+<?php if (!empty($latests)): ?>
 <h3 id="latest-posts-theme">Latest Posts</h3>
 <div class="container">
   <div class="row">
@@ -102,6 +103,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
     <?php endforeach; ?>
   </div>
 </div>
+<?php endif; ?>
 
 
 <h3 class="mt-5">All Posts</h3>
