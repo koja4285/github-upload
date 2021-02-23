@@ -64,11 +64,13 @@ $currentController = $this->request->getParam('controller');
 
     <nav class="top-nav navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand">Koja</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-left">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand fs-1" href="/home">Koja's website</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-right" id="navbarNav">
                 <ul class="navbar-nav d-flex justify-content-around">
                     <li class="nav-item">
                         <a href="/home" class="nav-link">Home</a>
@@ -81,10 +83,10 @@ $currentController = $this->request->getParam('controller');
                     </li>
                     <li class="nav-item" id="external-link">
                         <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/koheikoja">
-                            <img src="/img/LI-In-Bug.png" alt="LinkedIn" width="45" height="36">
+                            <img src="/img/LI-In-Bug.png" alt="LinkedIn" width="30" height="24">
                         </a>
                         <a class="nav-link" target="_blank" href="https://www.github.com/koja4285">
-                            <img src="/img/GitHub-Mark-64px.png" alt="GitHub" width="45" height="45">
+                            <img src="/img/GitHub-Mark-64px.png" alt="GitHub" width="30" height="30">
                         </a>
                     </li>
                 </ul>
