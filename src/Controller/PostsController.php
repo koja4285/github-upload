@@ -82,6 +82,22 @@ class PostsController extends AppController
     {
         $post = $this->Posts->findBySlug($slug)->firstOrFail();
         $this->set(compact('post'));
+
+        // If user is already logged in, set $thisUser
+        $result = $this->Authentication->getResult();
+        if ($result->isValid())
+        {
+            $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+            $this->set(compact('thisUser'));
+        }
+
+        // comment
+        $comment = $this->Posts->Comments->newEmptyEntity();
+        if ($this->request->is(['post']))
+        {
+
+        }
+        $this->set(compact('comment'));
     }
 
 

@@ -62,3 +62,40 @@
     transform: scale(1.05)
 }
 /* [END] card zoom when hovered */
+
+@media (max-width: 768px) {
+    #post-info {
+        padding-left: 50px;
+    }
+}
+
+/* View */
+h1 h2 h3 {
+    margin-bottom: .5rem;
+}
+
+hr#border {
+    border-top: 0.1rem solid black;
+}
+
+fieldset {
+    margin-bottom: -0.5rem;
+}
+
+fieldset > div.input {
+    display: flex!important;
+    justify-content: space-between!important;
+}
+
+fieldset > div.input > input,
+fieldset > div.input > textarea {
+    width: 70%;
+}
+
+#comment-submit {
+    font-size: 80%;
+    display: flex;
+    height: auto;
+    margin: 0 0 0 auto;
+    padding: 0 0.8rem;
+}

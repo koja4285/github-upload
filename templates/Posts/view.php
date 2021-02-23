@@ -13,9 +13,46 @@
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  * @author    Kohei Koja
  */
+
+echo $this->Html->css('posts', ['block' => 'css']);
 ?>
 
 <h1><?= h($post->title) ?></h1>
-<p><?= $this->Text->autoParagraph($post->body) ?></p>
 <p><small>Created: <?= $post->created->format(DATE_RFC850) ?></small></p>
-<p><?= $this->Html->link('Edit', ['action' => 'edit', $post->slug]) ?></p>
+<p><?= $this->Text->autoParagraph($post->body) ?></p>
+
+<hr id="border"></hr>
+
+<h3>Comments</h3>
+<?php if (!isset($comments)): ?>
+    <p>No comments so far... Please dump any comment (-_-)</p>
+<?php endif; ?>
+
+<div class="content mx-3">
+    <?= $this->Form->create($comment) ?>
+    <fieldset>
+        <?php
+            if (isset($thisUser))
+            {
+                echo $this->Form->control('username', [
+                    'disabled' => true,
+                    'class' => 'form-control fs-4',
+                    'value' => $thisUser['username']
+                ]);
+            }
+            else
+            {
+                echo $this->Form->control('guestname', [
+                    'id' => 'comment-form'
+                ]);
+            }
+            echo $this->Form->control('content', [
+                'label' => 'Comment',
+                'value' => '',
+                'placeholder' => 'Type your thought!'
+            ]);
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('¡Comment!'), [ 'id' => 'comment-submit' ]) ?>
+    <?= $this->Form->end() ?>
+</div>
