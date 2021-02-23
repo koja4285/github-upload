@@ -97,11 +97,11 @@ $currentController = $this->request->getParam('controller');
     <main class="main">
         <div class="container">
             <div class="row pt-3">
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <?= $this->Flash->render() ?>
                     <?= $this->fetch('content') ?>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <h3 class="">
                         Website's Infomation
                     </h3>
