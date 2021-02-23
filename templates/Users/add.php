@@ -37,7 +37,7 @@
         <div class="users form content">
             <?= $this->Form->create($user) ?>
             <fieldset>
-                <legend><?= __('Add User') ?></legend>
+                <legend><?= __('Register') ?></legend>
                 <?php
                     echo $this->Form->control('username', [
                         'placeholder' => 'e.g.) ' . $usernameExamples[array_rand($usernameExamples)]
