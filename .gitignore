@@ -45,4 +45,5 @@ nbproject/*
 # My files
 /webroot/img/home/*
 /webroot/img/posts/*
+/webroot/img/comments/*
 /webroot/audio/*
