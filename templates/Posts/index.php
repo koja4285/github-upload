@@ -112,9 +112,9 @@ echo $this->Html->css('posts', ['block' => 'css']);
         <div class="card mb-3"">
             <div class="row g-0">
                 <div class="col-md-1">
-                    <img src="/img/posts/okinawa_symbol" alt="(^_^)">
+                    <img class="position-absolute top-50 start-0 translate-middle-y" src="/img/posts/okinawa_symbol" alt="(^_^)", height="50px">
                 </div>
-                <div class="col-md-11">
+                <div class="col-md-11" id="post-info">
                     <div class="card-body">
                         <h5 class="card-title">><?= $post->created->format('Y-m-d') ?></h5>
                         <p class="card-text"><?= $post->title ?></p>
