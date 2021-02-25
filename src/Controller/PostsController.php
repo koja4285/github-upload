@@ -83,6 +83,13 @@ class PostsController extends AppController
         $post = $this->Posts->findBySlug($slug)->firstOrFail();
         $this->set(compact('post'));
 
+        // If the request is GET, increment view counter.
+        if ($this->request->is(['get']))
+        {
+            ++$post->view_count;
+            $this->Posts->save($post);
+        }
+
         // If user is already logged in, set $thisUser
         $result = $this->Authentication->getResult();
         if ($result->isValid())
@@ -90,14 +97,6 @@ class PostsController extends AppController
             $thisUser = $this->request->getAttribute('identity')->getOriginalData();
             $this->set(compact('thisUser'));
         }
-
-        // Comments which already exist
-        $comments = $this->Posts->Comments->find('threaded')
-            ->where(['post_id' => $post->id])
-            ->contain(['Users'])
-            ->toArray();
-        if (!empty($comments))
-            $this->set(compact('comments'));
 
         // new comment
         $comment = $this->Posts->Comments->newEmptyEntity();
@@ -126,6 +125,14 @@ class PostsController extends AppController
             }
         }
         $this->set(compact('comment'));
+
+        // Get all comments
+        $comments = $this->Posts->Comments->find('threaded')
+            ->where(['post_id' => $post->id])
+            ->contain(['Users'])
+            ->toArray();
+        if (!empty($comments))
+            $this->set(compact('comments'));
     }
 
 
