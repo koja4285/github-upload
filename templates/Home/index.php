@@ -94,7 +94,7 @@ echo $this->Html->script('home', ['block' => 'script']);
     <div class="row-photo row justify-content-end pt-3">
         <div class="col-4">
             <?= $this->Html->image('home/formal.jpg', [
-                'alt' => 'formal',
+                'alt' => 'me',
                 'id' => 'photoOfMe',
                 'class' => [
                     'rounded-circle',

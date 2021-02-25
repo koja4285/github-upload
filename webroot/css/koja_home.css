@@ -17,8 +17,7 @@
 }
 
 #photoOfMe {
-    max-width: 65%;
-    height: auto;
+    max-height: 16rem;
 }
 
 .form-check {
