@@ -48,6 +48,7 @@
                     ]);
                     echo $this->Form->control('password_confirm', [
                         'label' => 'Confirm password',
+                        'type' => 'password',
                         'placeholder' => 'Must be 4 - 32 length'
                     ]);
                     echo $this->Form->control('email', [
