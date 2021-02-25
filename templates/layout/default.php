@@ -108,8 +108,10 @@ $currentController = $this->request->getParam('controller');
                     <table class="table table-borderless">
                         <?= $this->Html->tableHeaders(['Visitors', 'Last update']) ?>
                         <?= $this->Html->tableCells([
-                            $siteInfo['visit_count'],
-                            $modifedDateTime
+                            '//TODO',
+                            '//TODO'
+                            // $siteInfo['visit_count'],
+                            // $modifedDateTime
                         ]) ?>
                     </table>
                 </div>
