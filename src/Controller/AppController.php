@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @link      https://cakephp.org CakePHP(tm) Project
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @author    Kohei Koja
  */
 namespace App\Controller;
 
@@ -58,8 +59,11 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         // All views can access to site_infos table.
-        $this->loadModel('SiteInfos');
-        $siteInfo = $this->SiteInfos->find('all')->first()->toArray();
-        $this->set(compact('siteInfo'));
+        if ($this->request->getParam('controller') !== 'Install')
+        {
+            $this->loadModel('SiteInfos');
+            $siteInfo = $this->SiteInfos->find('all')->first()->toArray();
+            $this->set(compact('siteInfo'));
+        }
     }
 }
