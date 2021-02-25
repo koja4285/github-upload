@@ -95,7 +95,8 @@ class CommentsTable extends Table
 
         $validator
             ->scalar('guestname')
-            ->maxLength('guestname', 32)
+            ->maxLength('guestname', 26, __('Guestname should be less than 26 characters.'))
+            ->alphaNumeric('guestname', __('Guestname only contains alphabet and numbers'))
             ->notEmptyString('guestname');
 
         $validator

@@ -52,16 +52,17 @@
 }
 
 /* [START] card zoom when hovered */
-.card {
+#latest-card, #post-card {
     transition: all 0.2s ease;
-    cursor: pointer
-}
-
-.card:hover {
+    cursor: pointer;
     box-shadow: 5px 6px 6px 2px #e9ecef;
-    transform: scale(1.05)
+    transform: scale(1.05);
 }
 /* [END] card zoom when hovered */
+
+#post-card {
+    max-width: 1250px;
+}
 
 @media (max-width: 768px) {
     #post-info {
@@ -74,9 +75,28 @@ h1 h2 h3 {
     margin-bottom: .5rem;
 }
 
+#post-title, #post-created {
+    text-align: center;
+}
+
+#post-title {
+    margin-bottom: 0px;
+}
+
+#post-body {
+    margin-top: 7.5rem;
+    padding: 0 2.5rem 0 2.5rem;
+}
+
 hr#border {
     border-top: 0.1rem solid black;
 }
+
+
+#comment-created {
+    margin-left: 10px;
+}
+
 
 fieldset {
     margin-bottom: -0.5rem;

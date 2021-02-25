@@ -91,11 +91,39 @@ class PostsController extends AppController
             $this->set(compact('thisUser'));
         }
 
-        // comment
+        // Comments which already exist
+        $comments = $this->Posts->Comments->find('threaded')
+            ->where(['post_id' => $post->id])
+            ->contain(['Users'])
+            ->toArray();
+        if (!empty($comments))
+            $this->set(compact('comments'));
+
+        // new comment
         $comment = $this->Posts->Comments->newEmptyEntity();
         if ($this->request->is(['post']))
         {
+            $this->Posts->Comments->patchEntity($comment, $data = $this->request->getData());
 
+            // If user is logged in, add foreign key
+            if (isset($thisUser))
+            {
+                $comment->user_id = $thisUser->getIdentifier();
+            }
+            else // Guest's name always starts with 'guest_'
+            {
+                $comment->guestname = 'guest_' . $this->request->getData('guestname');
+            }
+
+            $post->comments = [$comment];
+            if ($this->Posts->save($post))
+            {
+                $this->Flash->success(__('Thanks for commenting!'));
+            }
+            else
+            {
+                $this->Flash->error(__('Oops!! Failed to comment!'));
+            }
         }
         $this->set(compact('comment'));
     }
@@ -128,8 +156,6 @@ class PostsController extends AppController
             $data['body'] = $data['editordata'];
             unset($data['editordata']);
 
-            debug($data); return;
-            
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post))
             {

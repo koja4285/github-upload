@@ -109,7 +109,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
 <h3 class="mt-5">All Posts</h3>
 <?php foreach ($posts as $post): ?>
     <a href="<?= $this->Url->build(['action' => 'view', $post->slug]) ?>" id="text-black">
-        <div class="card mb-3"">
+        <div class="card mb-3" id="post-card">
             <div class="row g-0">
                 <div class="col-md-1">
                     <img class="position-absolute top-50 start-0 translate-middle-y" src="/img/posts/okinawa_symbol" alt="(^_^)", height="50px">
