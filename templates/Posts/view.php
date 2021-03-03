@@ -17,15 +17,55 @@
 echo $this->Html->css('posts', ['block' => 'css']);
 ?>
 
+<div class="row">
+    <aside class="column">
+        <div class="side-nav">
+            <?php /*
+            <h4 class="heading"><?= __('Actions') ?></h4>
+            <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
+            */ ?>
+            <?= $this->Html->link(__('< Back to blog home'),
+                ['controller' => 'posts', 'action' => 'index'],
+                ['class' => 'side-nav-item']) ?>
+        </div>
+    </aside>
+</div>
+
 <h1 id="post-title"><?= h($post->title) ?></h1>
-<p id="post-created"><small>Created: <?= $post->created->format(DATE_RFC850) ?></small></p>
+<p id="post-created"><small>Created: <?= $post->created->setTimeZone(new \DateTimeZone('America/New_York'))
+                                                       ->format(DATE_RFC850) ?></small></p>
 <div id="post-body">
     <p><?= $this->Text->autoParagraph($post->body) ?></p>
 </div>
 
 <hr id="border"></hr>
 
-<h3>Comments</h3>
+<div class="d-flex justify-content-between">
+    <div>
+        <h3>Comments</h3>
+    </div>
+    <div class="fs-1 menu-bar">
+        <?php if (!isset($thisUser)): ?>
+            <div class="fs-4">
+                <?= $this->Html->link(__('Log In'), [
+                    'controller' => 'users',
+                    'action' => 'login',
+                    '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+                ], [
+                    'class' => 'button'
+                ]) ?>
+                <?= $this->Html->link(__('Register'), [
+                    'controller' => 'users',
+                    'action' => 'add'
+                ], [
+                    'class' => 'button'
+                ]) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 <?php if (!isset($comments)): ?>
     <p>No comments so far... Please dump any comment (-_-)</p>
 <?php else: ?>

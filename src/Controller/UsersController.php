@@ -71,24 +71,23 @@ class UsersController extends AppController
 
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
-            // redirect to /posts after login success
-            $redirect = $this->Authentication->getLoginRedirect();
-            if (!$redirect)
+            $redirect = $this->request->getQuery('redirect');
+
+            // If redirect query param is not defined, redirect to /posts after login success
+            if (is_null($redirect))
             {
-                // If redirect is null (which is unlikely...), manually
-                // construct redirect URL.
-                $redirect = $this->request->getQuery('redirect', [
-                    'controller' => 'Posts',
-                    'action' => 'index',
-                ]);
+                $redirect = $this->Authentication->getLoginRedirect();
             }
     
             return $this->redirect($redirect);
         }
+
+
         // display error if user submitted and authentication failed
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__('Invalid username or password'));
         }
+
     }    
 
 
@@ -119,8 +118,8 @@ class UsersController extends AppController
     public function view($id = null)
     {
         // Authorization: Check if the user is admin
-        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
-        $this->Authorization->authorize($thisUser, 'beAdmin');
+        // $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        // $this->Authorization->authorize($thisUser, 'beAdmin');
 
         $user = $this->Users->get($id, [
             'contain' => ['Comments'],
