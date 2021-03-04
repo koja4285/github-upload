@@ -65,7 +65,6 @@ class PostsTable extends Table
         $validator
             ->scalar('title')
             ->maxLength('title', 255)
-            ->alphaNumeric('title', "Title must contain only alphabet or numbers")
             ->notEmptyString('title');
 
         $validator
