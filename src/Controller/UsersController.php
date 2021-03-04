@@ -71,12 +71,16 @@ class UsersController extends AppController
 
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
-            $redirect = $this->request->getQuery('redirect');
-
             // If redirect query param is not defined, redirect to /posts after login success
+            $redirect = $this->request->getQuery('redirect', $this->Authentication->getLoginRedirect());
+            
             if (is_null($redirect))
             {
-                $redirect = $this->Authentication->getLoginRedirect();
+                // If redirect is null, manually construct redirect URL.
+                $redirect = [
+                    'controller' => 'Posts',
+                    'action' => 'index',
+                ];
             }
     
             return $this->redirect($redirect);
