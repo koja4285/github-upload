@@ -66,7 +66,8 @@
             <div class="related">
                 <h4><?= __('Related Comments') ?></h4>
                 <?php if (!empty($user->comments)) : ?>
-                    <div class="table-responsive">
+                    <p>//TODO</p>
+                    <!-- <div class="table-responsive">
                         <table>
                             <tr>
                                 <th><?= __('Id') ?></th>
@@ -97,7 +98,7 @@
                             </tr>
                             <?php endforeach; ?>
                         </table>
-                    </div>
+                    </div> -->
                 <?php else: ?>
                     <p class="">You have not commented yet.</p>
                 <?php endif; ?>
