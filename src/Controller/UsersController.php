@@ -167,7 +167,14 @@ class UsersController extends AppController
         // Unlogged in user or admin can reach here.
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            // If the email is empty, it should be unset and stores null.
+            $requestData = $this->request->getData();
+            if (empty($requestData['email']))
+            {
+                unset($requestData['email']);
+            }
+
+            $user = $this->Users->patchEntity($user, $requestData);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
