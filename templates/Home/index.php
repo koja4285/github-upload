@@ -93,7 +93,7 @@ echo $this->Html->script('home', ['block' => 'script']);
     </div>
     <div class="row-photo row justify-content-end pt-3">
         <div class="col-4">
-            <?= $this->Html->image('home/formal.jpg', [
+            <?= $this->Html->image('home/listening_to_the_heart.jpg', [
                 'alt' => 'me',
                 'id' => 'photoOfMe',
                 'class' => [
@@ -103,10 +103,15 @@ echo $this->Html->script('home', ['block' => 'script']);
             ]) ?>
         </div>
         <div class="col-4 d-flex flex-column my-auto">
+            <!-- <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault0" 
+                onchange="changePhoto('formal')" checked>
+                <label class="form-check-label" for="flexRadioDefault0"> Formal AF </label>
+            </div> -->
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" 
-                onchange="changePhoto('formal')" checked>
-                <label class="form-check-label" for="flexRadioDefault1"> Formal AF </label>
+                onchange="changePhoto('listening')" checked>
+                <label class="form-check-label" for="flexRadioDefault1"> Listening to music </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" 

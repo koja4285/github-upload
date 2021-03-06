@@ -39,10 +39,14 @@ function changePhoto(face)
             break;
         
         case 'formal':
-        default:
             imgSrc = '/img/home/formal.jpg';
             break;
-            
+
+        case 'listening':
+        default:
+            imgSrc = '/img/home/listening_to_the_heart.jpg';
+            break;
+       
     }
 
     document.getElementById('photoOfMe').src = imgSrc;
