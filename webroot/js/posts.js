@@ -14,43 +14,41 @@ $(document).ready(function() {
         callbacks: {
             onImageUpload : function (files)
             {
-                var data = new FormData();
-                data.append('file', files[0]);
-
-                $.ajax({
-                    data : data,
-                    type : 'POST',
-                    url : '/posts/upload',
-                    cache : false,
-                    contentType : false,
-                    processData : false,
-                    headers : {
-                        'X-CSRF-Token' : csrfToken
-                    },
-                    success : function (url)
-                    {
-                        if (url)
-                        {
-                            $('#summernote').summernote('insertImage', url, 'image');
-                        }
-                        else
-                        {
-                            alert('Cannot upload the image file. (inside sucess of "onImageUpload")');
-                        }
-                    },
-                    error : function (url)
-                    {
-                        alert('Cannot upload the image file. (inside error of "onImageUpload")');
-                    }
-
-                });
+                uploadFile(files[0]);
             },
-    
+
             onImageUploadError : function (files)
             {
                 alert('Cannot upload the image file. (inside "onImageUploadError")');
             }
         }
-    
     });
+
+    function uploadFile(file)
+    {
+        var data = new FormData();
+        data.append('file', file);
+
+        $.ajax({
+            data : data,
+            type : 'POST',
+            url : '/posts/upload',
+            cache : false,
+            contentType : false,
+            processData : false,
+            headers : {
+                'X-CSRF-Token' : csrfToken
+            },
+            success : function (url)
+            {
+                var image = $('<img>').attr('src', url);
+                $('#summernote').summernote("insertNode", image[0]);
+            },
+            error : function (url)
+            {
+                alert('Cannot upload the image file. (inside error of "onImageUpload")');
+            }
+
+        });
+    }
 });

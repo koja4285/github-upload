@@ -46,4 +46,6 @@ nbproject/*
 /webroot/img/home/*
 /webroot/img/posts/*
 /webroot/img/comments/*
+/webroot/img/uploads/*
+/webroot/uploads/*
 /webroot/audio/*

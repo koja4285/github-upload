@@ -17,6 +17,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\InternalErrorException;
 
 class PostsController extends AppController
 {
@@ -200,6 +201,8 @@ class PostsController extends AppController
      * Only admin can upload a file.
      * Processed as ajax request.
      * @todo complete this method
+     * @throws InternalErrorException If unspported file extension is passed
+     * @return string|boolean string if successful, false if not.
      */
     public function upload()
     {
@@ -207,16 +210,19 @@ class PostsController extends AppController
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'beAdmin');
 
-        // $this->autoRender = false;
+        $this->autoRender = false;
 
-        if ($this->request->is(['post']))
+        if ($this->request->is(['ajax']))
         {
-            debug($this->request->getData());
-            $fileObj = new \SplFileObject($this->request->getData('form')['file']['tmp_name']);
+            $this->response = $this->response->withDisabledCache();
+
+            // This object is Laminas\Diactoros\UploadedFile which supports
+            // a bunch of useful methods to upload a file.
+            $fileObj = $this->request->getData('file');
 
             // The format of filename is "yyyy-mm-dd-hh-mm-ss.fileExtension".
-            $fileExtension = $fileObj->getExtension();
-            $filename = (new \DateTime('now'))->format('Y-m-d-H-i-s') . $fileExtension;
+            $fileExtension = pathinfo($fileObj->getClientFilename(), PATHINFO_EXTENSION);
+            $filename = (new \DateTime('now'))->format('Y-m-d-H-i-s') . '.' . $fileExtension;
 
             // Change target directory based on file extension.
             switch ($fileExtension)
@@ -228,21 +234,24 @@ class PostsController extends AppController
                     break;
 
                 default :
-                    $dir = 'uploads';
-                    break;
+                    throw new InternalErrorException(__('Invalid file extension'));
             }
-            $fileUrl = ROOT . DS . $dir . DS . 'uploads' . DS . $filename;
+            $fileUrl = $dir . DS . 'uploads' . DS . $filename;
 
-            // Upload file
-            if (move_uploaded_file($fileObj->getFilename(), $fileUrl))
+            // Moves an uploaded file to a new location
+            $fileObj->moveTo(WWW_ROOT . $fileUrl);
+            if ($fileObj->getError() === UPLOAD_ERR_OK)
             {
-                echo $fileUrl;
+                echo DS . $fileUrl;
+                return;
             }
             else
             {
-                echo false;
+                throw new InternalErrorException(__('File Upload Error'));
             }
         }
+
+        throw new InternalErrorException(__('Request Error'));
     }
 
 }
