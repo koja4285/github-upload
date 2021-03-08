@@ -122,8 +122,8 @@ class UsersController extends AppController
     public function view($id = null)
     {
         // Authorization: Check if the user is admin
-        // $thisUser = $this->request->getAttribute('identity')->getOriginalData();
-        // $this->Authorization->authorize($thisUser, 'beAdmin');
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'view');
 
         $user = $this->Users->get($id, [
             'contain' => ['Comments'],
