@@ -20,15 +20,22 @@ echo $this->Html->css('posts', ['block' => 'css']);
 <div class="row">
     <aside class="column">
         <div class="side-nav">
-            <?php /*
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-            */ ?>
             <?= $this->Html->link(__('< Back to blog home'),
                 ['controller' => 'posts', 'action' => 'index'],
                 ['class' => 'side-nav-item']) ?>
+            <?php if (isset($thisUser) && $thisUser->role === 'admin'): ?>
+                <?= $this->Html->link(__('EDIT'),
+                    ['controller' => 'posts', 'action' => 'add', $post->id],
+                    ['class' => 'btn btn-warning']) ?>
+                <?= $this->Form->postLink(
+                    __('DELETE'),
+                    ['controller' => 'posts', 'action' => 'delete', $post->id],
+                    [
+                        'class' => 'btn btn-danger',
+                        'confirm' => __('Are you sure?')
+                    ])
+                ?>
+            <?php endif; ?>
         </div>
     </aside>
 </div>

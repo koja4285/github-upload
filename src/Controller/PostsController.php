@@ -141,15 +141,15 @@ class PostsController extends AppController
      * Add method.
      * Only admin can add a post.
      */
-    public function add()
+    public function add($id = null)
     {
         // Authorization: Check if the user is admin
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'beAdmin');
 
-        $post = $this->Posts->newEmptyEntity();
+        $post = is_null($id)? $this->Posts->newEmptyEntity() : $this->Posts->get($id);
 
-        if ($this->request->is('post'))
+        if ($this->request->is(['post', 'put']))
         {
             // Set up slug.
             // Slug is hyphen-based title instead of space-based.
@@ -252,6 +252,44 @@ class PostsController extends AppController
         }
 
         throw new InternalErrorException(__('Request Error'));
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Post id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        // Authorization: Check if the user is admin or oneself
+        $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+        $this->Authorization->authorize($thisUser, 'beAdmin');
+
+        try
+        {
+            $this->request->allowMethod(['post', 'delete']);
+            $post = $this->Posts->get($id);
+            if ($this->Posts->delete($post)) {
+                $this->Flash->success(__('The post has been deleted.'));
+            } else {
+                $this->Flash->error(__('The post could not be deleted. Please, try again.'));
+            }
+    
+        }
+        catch (MethodNotAllowedException $e)
+        {
+            $this->Flash->error(__('GET HTTP method is not allowed.'));
+        }
+        finally
+        {
+            return $this->redirect([
+                'controller' => 'Posts',
+                'action' => 'index',
+            ]);
+        }
+
     }
 
 }

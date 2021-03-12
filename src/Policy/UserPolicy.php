@@ -86,17 +86,17 @@ class UserPolicy
     //     return $this->_isLoggedIn($user);
     // }
 
-    // /**
-    //  * Check if $user can view User
-    //  *
-    //  * @param \Authorization\IdentityInterface $user The user.
-    //  * @param \App\Model\Entity\User $resource
-    //  * @return bool
-    //  */
-    // public function canView(IdentityInterface $user, User $resource)
-    // {
-    //     return $this->_isAdmin($user);
-    // }
+    /**
+     * Check if $user can view User
+     *
+     * @param \Authorization\IdentityInterface $user The user.
+     * @param \App\Model\Entity\User $resource
+     * @return bool
+     */
+    public function canView(IdentityInterface $user, User $resource)
+    {
+        return $this->_isAdmin($user) || $this->_isOneself($user, $resource);
+    }
 
     /**
      * [public] Check if $user is admin
