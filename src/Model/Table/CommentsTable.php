@@ -78,6 +78,7 @@ class CommentsTable extends Table
         $this->belongsTo('ParentComments', [
             'className' => 'Comments',
             'foreignKey' => 'parent_id',
+            'propertyName' => 'parentComment'
         ]);
         $this->hasMany('ChildComments', [
             'className' => 'Comments',

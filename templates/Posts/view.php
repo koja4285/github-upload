@@ -96,7 +96,14 @@ echo $this->Html->css('posts', ['block' => 'css']);
 <?php endif; ?>
 
 <div class="content mx-3">
-    <?= $this->Form->create($comment) ?>
+    <?= $this->Form->create($comment, [
+            'url' => [
+                'controller' => 'comments',
+                'action' => 'add',
+                $post->id,
+                '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+            ]
+        ]) ?>
     <?= '//TODO add reply feature' ?>
     <fieldset>
         <?php
