@@ -65,6 +65,10 @@ class CommentsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->addBehavior('Tree', [
+            'level' => 'level'
+        ]);
+
         $this->belongsTo('Posts', [
             'foreignKey' => 'post_id',
         ]);

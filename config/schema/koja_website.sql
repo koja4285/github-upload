@@ -48,6 +48,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
     `post_id` INT unsigned DEFAULT NULL,
     `user_id` INT unsigned DEFAULT NULL,
     `parent_id` INT unsigned DEFAULT NULL,
+    `lft` INT unsigned DEFAULT NULL,
+    `rght` INT unsigned DEFAULT NULL,
+    `level` INT unsigned,
     `guestname` VARCHAR(32) NOT NULL DEFAULT '',
     `content` TEXT NOT NULL DEFAULT '',
     `created` datetime DEFAULT CURRENT_TIMESTAMP, -- optional, requires MySQL 5.6.5+
@@ -57,11 +60,6 @@ CREATE TABLE IF NOT EXISTS `comments` (
     FOREIGN KEY user_key (`user_id`) REFERENCES users(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-INSERT IGNORE INTO `users`
-SET `username` = 'root',
-`password` = 'root',
-`role` = 'admin';
 
 INSERT IGNORE INTO `site_infos`
 SET `only_id` = 'only';
