@@ -103,7 +103,9 @@ class PostsController extends AppController
         $this->set(compact('comment'));
 
         // Get all comments
-        $comments = $this->Posts->Comments->find('threaded')
+        $comments = $this->Posts->Comments->find('all', [
+                'order' => ['Comments.lft' => 'ASC']
+            ])
             ->where(['post_id' => $post->id])
             ->contain(['Users'])
             ->toArray();

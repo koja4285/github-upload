@@ -104,6 +104,11 @@ hr#border {
     margin-left: 10px;
 }
 
+a#reply-text:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 
 fieldset {
     margin-bottom: -0.5rem;
@@ -114,8 +119,8 @@ fieldset > div.input {
     justify-content: space-between!important;
 }
 
-fieldset > div.input > input,
-fieldset > div.input > textarea {
+input.new-comment-form,
+textarea.new-comment-form {
     width: 70%;
 }
 

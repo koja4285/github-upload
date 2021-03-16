@@ -103,6 +103,7 @@ class CommentsController extends AppController
         }
 
         $commentsTable = $this->getTableLocator()->get('Comments');
+        $commentsTable->recover();
         $post = $commentsTable->Posts->get($post_id);
         $parentComment = (is_null($parent_id)) ? null : $commentsTable->get($parent_id);
         
@@ -123,7 +124,9 @@ class CommentsController extends AppController
             }
 
             $comment->post = $post;
-            $comment->parentComment = $parentComment;
+            // Specifying parent_id makes tree behavior work well.
+            // $comment->parentComment = $parentComment didn't work.
+            $comment->parent_id = $parentComment->id;
             if ($this->Comments->save($comment))
             {
                 $this->Flash->success(__('Thanks for commenting!'));

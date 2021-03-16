@@ -78,20 +78,93 @@ echo $this->Html->css('posts', ['block' => 'css']);
 <?php else: ?>
     <?php // To avoid naming confilication, use $c instead of $comment ?>
     <?php foreach($comments as $c): ?>
-        <div class="card text-white bg-primary mb-3">
-            <div class="card-header">
-                <span><img src="/img/comments/user_icon" alt="" height="35px"></span>
-                <?php if (isset($c->user_id)): ?>
-                    <?= $c->user->username ?>
-                <?php else: ?>
-                    <?= $c->guestname ?>
-                <?php endif; ?>
-                <span class="fs-5" id="comment-created"><?= $c->created->format('Y/m/d-H:i:s') ?></span>
-            </div>
-            <div class="card-body">
-                <p class="card-text"><?= $c->content ?></p>
-            </div>
-        </div>
+        <div class="d-flex bd-highlight">
+            <?php
+                // Add left margin as many times as the level of the comment.
+                for($i = 0; $i < $c->level; ++$i)
+                {
+                    echo '<div class="p-2 bd-highlight" style="margin-left: 2%">';
+                    if ($i == $c->level-1) echo '<i class="bi bi-arrow-return-right"></i>';
+                    echo '</div>';
+                }
+            ?>
+            <div class="card text-white bg-primary mb-3 p-2 flex-grow-1 bd-highlight">
+                <div class="card-header">
+                    <span><img src="/img/comments/user_icon" alt="" height="35px"></span>
+                    <?php if (isset($c->user_id)): ?>
+                        <?= $c->user->username ?>
+                    <?php else: ?>
+                        <?= $c->guestname ?>
+                    <?php endif; ?>
+                    <span class="fs-5" id="comment-created"><?= $c->created->format('Y/m/d H:i') ?></span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><?= $c->content ?></p>
+                    <?php if ($c->level <= 10): ?>
+                        <!-- Button trigger modal -->
+                        <div class="text-end">
+                            <a data-bs-toggle="modal" data-bs-target="#replyModal<?= $c->id?>" id="reply-text">
+                                <i class="bi bi-reply"></i>reply
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="replyModal<?= $c->id?>" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="replyModalLabel">
+                                            Reply to <?= (isset($c->user_id)) ? $c->user->username : $c->guestname ?>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?= $this->Form->create($comment, [
+                                            'url' => [
+                                                'controller' => 'comments',
+                                                'action' => 'add',
+                                                $post->id,
+                                                $c->id,
+                                                '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+                                            ]
+                                        ]) ?>
+                                        <fieldset>
+                                            <?php
+                                                if (isset($thisUser))
+                                                {
+                                                    echo $this->Form->control('username', [
+                                                        'disabled' => true,
+                                                        'class' => 'form-control fs-4',
+                                                        'value' => $thisUser['username']
+                                                    ]);
+                                                }
+                                                else
+                                                {
+                                                    echo $this->Form->control('guestname', [
+                                                        'label' => false,
+                                                        'placeholder' => 'Guestname',
+                                                    ]);
+                                                }
+                                                echo $this->Form->control('content', [
+                                                    'label' => false,
+                                                    'value' => '',
+                                                    'placeholder' => 'Type your thought!'
+                                                ]);
+                                            ?>
+                                        </fieldset>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <?= $this->Form->button(__('Reply'), [ 'id' => 'comment-submit' ]) ?>
+                                        <?= $this->Form->end() ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- Modal -->
+                    <?php endif; ?>
+                </div> <!-- <div class="card-body"> -->
+            </div> <!-- <div class="card text-white bg-primary mb-3 p-2 flex-grow-1 bd-highlight"> -->
+        </div> <!-- <div class="d-flex bd-highlight"> -->
+
     <?php endforeach; ?>
 <?php endif; ?>
 
@@ -104,26 +177,27 @@ echo $this->Html->css('posts', ['block' => 'css']);
                 '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
             ]
         ]) ?>
-    <?= '//TODO add reply feature' ?>
     <fieldset>
         <?php
             if (isset($thisUser))
             {
                 echo $this->Form->control('username', [
                     'disabled' => true,
-                    'class' => 'form-control fs-4',
+                    'class' => 'new-comment-form form-control fs-4',
                     'value' => $thisUser['username']
                 ]);
             }
             else
             {
                 echo $this->Form->control('guestname', [
-                    'id' => 'comment-form'
+                    'class' => 'new-comment-form',
+                    'placeholder' => 'Guestname'
                 ]);
             }
             echo $this->Form->control('content', [
                 'label' => 'Comment',
                 'value' => '',
+                'class' => 'new-comment-form',
                 'placeholder' => 'Type your thought!'
             ]);
         ?>
