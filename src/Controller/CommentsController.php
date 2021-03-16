@@ -126,7 +126,7 @@ class CommentsController extends AppController
             $comment->post = $post;
             // Specifying parent_id makes tree behavior work well.
             // $comment->parentComment = $parentComment didn't work.
-            $comment->parent_id = $parentComment->id;
+            $comment->parent_id = (is_null($parent_id)) ? null : $parentComment->id;
             if ($this->Comments->save($comment))
             {
                 $this->Flash->success(__('Thanks for commenting!'));
