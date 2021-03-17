@@ -126,7 +126,7 @@ class UsersController extends AppController
         $this->Authorization->authorize($thisUser, 'view');
 
         $user = $this->Users->get($id, [
-            'contain' => ['Comments'],
+            'contain' => ['Comments.Posts'],
         ]);
         $this->set(compact('user'));
     }

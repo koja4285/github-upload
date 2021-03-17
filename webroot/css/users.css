@@ -1,0 +1,14 @@
+/**
+* Style sheet for /users/*
+*
+* @license   https://opensource.org/licenses/mit-license.php MIT License
+* @author    Kohei Koja
+*/
+
+/* view */
+a.html-link {
+    color: white;
+}
+a.html-link:hover {
+    text-decoration: underline;
+}

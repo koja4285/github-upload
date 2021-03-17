@@ -177,7 +177,6 @@ class PostsController extends AppController
      * Upload file method.
      * Only admin can upload a file.
      * Processed as ajax request.
-     * @todo complete this method
      * @throws InternalErrorException If unspported file extension is passed
      * @return string|boolean string if successful, false if not.
      */

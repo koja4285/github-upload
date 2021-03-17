@@ -1,9 +1,26 @@
 <?php
 /**
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link      https://cakephp.org CakePHP(tm) Project
+ * @since     0.2.9
+ * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @author    Kohei Koja
+ */
+/**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
+
+echo $this->Html->css('users', ['block' => 'css']);
 ?>
+
 <div class="row">
     <aside class="column">
         <div class="side-nav">
@@ -59,46 +76,38 @@
                 </tr>
                 <tr>
                     <th><?= __('Since') ?></th>
-                    <td><?= h($user->created) ?></td>
+                    <td><?= h($user->created->format('Y-m-d H:m')) ?></td>
                     <td></td>
                 </tr>
             </table>
             <div class="related">
-                <h4><?= __('Related Comments') ?></h4>
+                <h4><?= __('Your Comments') ?></h4>
                 <?php if (!empty($user->comments)) : ?>
-                    <p>//TODO</p>
-                    <!-- <div class="table-responsive">
-                        <table>
-                            <tr>
-                                <th><?= __('Id') ?></th>
-                                <th><?= __('Post Id') ?></th>
-                                <th><?= __('User Id') ?></th>
-                                <th><?= __('Parent Id') ?></th>
-                                <th><?= __('Guestname') ?></th>
-                                <th><?= __('Content') ?></th>
-                                <th><?= __('Created') ?></th>
-                                <th><?= __('Modified') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
-                            </tr>
-                            <?php foreach ($user->comments as $comments) : ?>
-                            <tr>
-                                <td><?= h($comments->id) ?></td>
-                                <td><?= h($comments->post_id) ?></td>
-                                <td><?= h($comments->user_id) ?></td>
-                                <td><?= h($comments->parent_id) ?></td>
-                                <td><?= h($comments->guestname) ?></td>
-                                <td><?= h($comments->content) ?></td>
-                                <td><?= h($comments->created) ?></td>
-                                <td><?= h($comments->modified) ?></td>
-                                <td class="actions">
-                                    <?= $this->Html->link(__('View'), ['controller' => 'Comments', 'action' => 'view', $comments->id]) ?>
-                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Comments', 'action' => 'edit', $comments->id]) ?>
-                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Comments', 'action' => 'delete', $comments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comments->id)]) ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    </div> -->
+                    <?php foreach($user->comments as $c): ?>
+                        <div class="card text-white bg-primary mb-3 p-2 flex-grow-1 bd-highlight">
+                            <div class="card-header">
+                                <b><?= $this->Html->link(
+                                    $c->post->title,
+                                    ['controller' => 'posts', 'action' => 'view', $c->post->slug],
+                                    ['class' => 'html-link']
+                                ) ?></b>
+                                <span class="fs-5 ms-3" id="comment-created"><?= $c->created->format('Y/m/d H:i') ?></span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text"><?= $c->content ?></p>
+                                <div class="text-end">
+                                    <a data-bs-toggle="modal" data-bs-target="#replyModal<?= $c->id?>" id="reply-text">
+                                        <i class="bi bi-trash"></i>
+                                        <?= $this->Html->link(
+                                            __('delete'),
+                                            ['controller' => 'comments', 'action' => 'delete', $c->id],
+                                            ['confirm' => __('Are you sure??'), 'class' => 'html-link']
+                                        ) ?>
+                                    </a>
+                                </div>
+                            </div> <!-- <div class="card-body"> -->
+                        </div> <!-- <div class="card text-white bg-primary mb-3 p-2 flex-grow-1 bd-highlight"> -->
+                    <?php endforeach; ?>
                 <?php else: ?>
                     <p class="">You have not commented yet.</p>
                 <?php endif; ?>
