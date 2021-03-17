@@ -63,9 +63,9 @@
 }
 /* [END] card zoom when hovered */
 
-#post-card {
+/* #post-card {
     max-width: 1250px;
-}
+} */
 
 @media (max-width: 768px) {
     #post-info {

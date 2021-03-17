@@ -99,11 +99,11 @@ $currentController = $this->request->getParam('controller');
     <main class="main">
         <div class="container">
             <div class="row pt-3">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <?= $this->Flash->render() ?>
                     <?= $this->fetch('content') ?>
                 </div>
-                <div class="col-md-2">
+                <!-- <div class="col-md-2">
                     <h3 class="">
                         Website's Infomation
                     </h3>
@@ -116,7 +116,7 @@ $currentController = $this->request->getParam('controller');
                             // $modifedDateTime
                         ]) ?>
                     </table>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>
