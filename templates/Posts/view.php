@@ -59,7 +59,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
                 <?= $this->Html->link(__('Log In'), [
                     'controller' => 'users',
                     'action' => 'login',
-                    '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+                    '?' => [ 'redirect' => $this->request->getUri()->getPath() ]
                 ], [
                     'class' => 'button'
                 ]) ?>
@@ -124,7 +124,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
                                                 'action' => 'add',
                                                 $post->id,
                                                 $c->id,
-                                                '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+                                                '?' => [ 'redirect' => $this->request->getUri()->getPath() ]
                                             ]
                                         ]) ?>
                                         <fieldset>
@@ -174,7 +174,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
                 'controller' => 'comments',
                 'action' => 'add',
                 $post->id,
-                '?' => [ 'redirect' => 'posts/view/' . $post->slug ]
+                '?' => [ 'redirect' => $this->request->getUri()->getPath() ]
             ]
         ]) ?>
     <fieldset>
