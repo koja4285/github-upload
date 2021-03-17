@@ -100,7 +100,7 @@ echo $this->Html->css('users', ['block' => 'css']);
                                         <i class="bi bi-trash"></i>
                                         <?= $this->Html->link(
                                             __('delete'),
-                                            ['controller' => 'comments', 'action' => 'delete', $c->id],
+                                            ['controller' => 'comments', 'action' => 'delete', $c->id, '?' => [ 'redirect' => $this->request->getUri()->getPath() ] ],
                                             ['confirm' => __('Are you sure??'), 'class' => 'html-link']
                                         ) ?>
                                     </a>
