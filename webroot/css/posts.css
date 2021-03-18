@@ -95,6 +95,10 @@ h1 h2 h3 {
     padding: 0 2.5rem 0 2.5rem;
 }
 
+#post-body > p {
+    padding: 10px 0;
+}
+
 hr#border {
     border-top: 0.1rem solid black;
 }
