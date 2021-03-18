@@ -43,7 +43,7 @@ $(document).ready(function() {
             {
                 var image = $('<img>').attr({
                     src : url,
-                    id : 'photoOnPost'
+                    // id : 'photoOnPost'
                 });
                 $('#summernote').summernote("insertNode", image[0]);
             },
