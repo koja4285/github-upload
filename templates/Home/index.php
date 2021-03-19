@@ -80,7 +80,7 @@ echo $this->Html->script('home', ['block' => 'script']);
                     </li>
                     <li class="">
                         Taiga Yogi (my friend) &nbsp;
-                        <audio controls preload="none" class="py-3">
+                        <audio controls controlsList="nodownload" preload="none" class="py-3">
                             <source src="audio/recording.m4a" type="audio/mp4" />
                             <source src="audio/recording.mp3" type="audio/mp3" />
                             Your browser does not support the <code>audio</code> element.
