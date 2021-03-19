@@ -18,81 +18,98 @@ echo $this->Html->css('koja_home', ['block' => 'css']);
 echo $this->Html->script('home', ['block' => 'script']);
 ?>
 
-<h1 class="">
-    Welcome to my website!
-</h1>
 
-<div id="purpose">
-    <h2 class="">
+<div class="bg-group-shot">
+    <h1 class="text-white" id="">
+        Welcome to my website!
+    </h1>
+</div>
+
+<div class="row text-center block text-white" id="purpose">
+    <h2 class="text-white">
         The purpose of this website
     </h2>
-    <div class="paragraph">
-    Hello, welcome to my website. There are several reasons why I decided to create this website.
-        <ul class="">
-            <li class="">
-                To practice writing English. I'm writing a blog, it's more like an diary though.
-                There, I want to share my story and my thought about living in Murica.
-            </li>
-            <li class="">
-                To put together my portfolios. I want to gather them in one place.
-            </li>
-            <li class="">
-                To practice developing website. I needed a personal side project I truly enjoy.
-            </li>
-        </ul>
+    <h4 class="paragraph text-white">
+        Hello, welcome to my website. There are several reasons why I decided to create this website.
+    </h4>
+    <div class="row text-start">
+        <div class="col">
+            1. To practice writing English. I'm writing a blog, it's more like an diary though.
+            There, I want to share my story and my thought about living in Murica.
+        </div>
+        <div class="col">
+            2. To put together my portfolios. I want to gather them in one place.
+        </div>
+        <div class="col">
+            3. To practice developing website. I needed a personal side project I truly enjoy.
+        </div>
     </div>
 </div>
 
-<div class="pt-5" id="interest">
-    <h2 class="">
+<div class="row text-center block" id="hobby">
+    <h2 class="mb-3">
         My Hobbies and interests
     </h2>
-    <div class="paragraph">
-    I like working out. I started lifting weights when I was 19 years old. Since then, I liked to gain
-    some muscles on my body but recently, I got more into olympic weightlifting. Though I planned to 
-    start weightlifting in America, I still cannot find places to learn basics becuase of covid.<br><br>
-    I'm into cars, too. Especially what people call JDM(Japanese Dometic Market) cars. My most favorite car is
-    Toyots's Chaser (JZX100). Of course Cresta and MarkII are nice as well. My grandfather recently gave up
-    his MarkII (GX100), one of my dreams is to cutomize his car, like swapping engines(G->1JZ) and transmissions 
-    and go like ... vuuuuuuuu⤴︎ pshusllshsuslsus⤵︎<br><br>
-    Also, listening to music is one of my favorite things to do. I usually listen to Japanese songs. Here are
-    some of my most-liked artists.
-        <ul class="">
-            <li class="">
-                Kariyushi 58 (from Okinawa) &nbsp;
-                <a href="https://music.apple.com/us/artist/kariyushi-58/128915911" target="_blank">
-                    Apple Music
-                </a>
-            </li>
-            <li class="">
-                Mongol 800 (from Okinawa) &nbsp;
-                <a href="https://music.apple.com/us/artist/mongol800/202191113" target="_blank">
-                    Apple Music
-                </a>
-            </li>
-            <li class="">
-                Taiga Yogi (my friend) &nbsp;
-                <audio controls preload="none" class="py-3">
-                    <source src="audio/recording.m4a" type="audio/mp4" />
-                    <source src="audio/recording.mp3" type="audio/mp3" />
-                    Your browser does not support the <code>audio</code> element.
-                </audio>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="col">
+            <h4><i class="bi bi-gear"></i>&nbspCARS</h4>
+            <div class=" text-start">
+                Especially what people call JDM(Japanese Dometic Market) cars. My most favorite car is
+                Toyots's Chaser tourerV (JZX100). Cresta and MarkII are nice as well. My grandfather recently gave up
+                his MarkII (GX100), one of my dreams is to cutomize his car, like swapping engines(G->1JZ) and transmissions 
+                and go like ... vuuuuuuuu⤴︎ pshusllshsuslsus⤵︎
+            </div>
+        </div>
+        <div class="col">
+            <h4><i class="bi bi-music-player"></i>&nbspMUSIC</h4>
+            <div class="text-start">
+                Also, listening to music is one of my favorite things to do. I usually listen to Japanese songs. Here are
+                some of my most-liked artists.
+                <ul class="">
+                    <li class="">
+                        Kariyushi 58 (from Okinawa) &nbsp;
+                        <a href="https://music.apple.com/us/artist/kariyushi-58/128915911" target="_blank">
+                            Apple Music
+                        </a>
+                    </li>
+                    <li class="">
+                        Mongol 800 (from Okinawa) &nbsp;
+                        <a href="https://music.apple.com/us/artist/mongol800/202191113" target="_blank">
+                            Apple Music
+                        </a>
+                    </li>
+                    <li class="">
+                        Taiga Yogi (my friend) &nbsp;
+                        <audio controls preload="none" class="py-3">
+                            <source src="audio/recording.m4a" type="audio/mp4" />
+                            <source src="audio/recording.mp3" type="audio/mp3" />
+                            Your browser does not support the <code>audio</code> element.
+                        </audio>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <h4><i class="bi bi-shield-plus"></i>&nbspWORK OUT</h4>
+            <div class="text-start">
+                I'm into olympic weightlifting. Though I planned to 
+                start olympic weightlifting in America, I still cannot find places to learn becuase of covid.
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="intro pt-5">
-    <h2 class="">
+<div class="row text-center block text-white" id="about-me">
+    <h2 class="text-white">
         About Me
     </h2>
-    <div class="paragraph">
-        My name is Kohei (by the way, it's 'koh-hey' not 'koh-ee'). I'm from Okinawa, Japan,
-        currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022...
-        I mean ... hopefully.
-    </div>
-    <div class="row-photo row justify-content-end pt-3">
-        <div class="col-4">
+    <div class="row text-start">
+        <div class="col">
+            My name is Kohei Koja (by the way, it's 'koh-hey' not 'koh-ee'). I'm from Okinawa, Japan,
+            currently, an international MS computer science student at UCF. Expectedly, I will graduate in May, 2022...
+            I mean ... hopefully.
+        </div>
+        <div class="col" id="photo-col">
             <?= $this->Html->image('home/listening_to_the_heart.jpg', [
                 'alt' => 'me',
                 'id' => 'photoOfMe',
@@ -102,7 +119,7 @@ echo $this->Html->script('home', ['block' => 'script']);
                 ]
             ]) ?>
         </div>
-        <div class="col-4 d-flex flex-column my-auto">
+        <div class="col d-flex flex-column my-auto" id="select-col">
             <!-- <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault0" 
                 onchange="changePhoto('formal')" checked>

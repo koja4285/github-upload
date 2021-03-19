@@ -64,7 +64,7 @@ $currentController = $this->request->getParam('controller');
         </div>
     </nav> -->
 
-    <nav class="top-nav navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="top-nav navbar sticky-top navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <div class="navbar-left">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
