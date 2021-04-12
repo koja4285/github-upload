@@ -43,6 +43,8 @@ nbproject/*
 .sass-cache/
 
 # My files
+/webroot/adminer-4.7.8.php
+/webroot/phpinfo.php
 /webroot/img/home/*
 /webroot/img/posts/*
 /webroot/img/comments/*
