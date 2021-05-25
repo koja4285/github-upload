@@ -73,6 +73,7 @@ class PostsController extends AppController
                 ->order(['created' => 'DESC'])
         );
         $this->set(compact('posts'));
+        $this->viewBuilder()->setOption('serialize', ['latests', 'posts']); // For REST
     }
 
     /**
@@ -111,6 +112,8 @@ class PostsController extends AppController
             ->toArray();
         if (!empty($comments))
             $this->set(compact('comments'));
+        
+        $this->viewBuilder()->setOption('serialize', ['post']); // For REST
     }
 
 

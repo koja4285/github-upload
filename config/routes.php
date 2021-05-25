@@ -88,3 +88,8 @@ $routes->scope('/', function (RouteBuilder $builder) {
  * });
  * ```
  */
+
+$routes->scope('/api', function (RouteBuilder $routes) {
+    $routes->setExtensions(['json']);
+    $routes->resources('Posts');
+});
