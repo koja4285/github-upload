@@ -93,7 +93,7 @@ echo $this->Html->script('home', ['block' => 'script']);
             <h4><i class="bi bi-shield-plus"></i>&nbspWORK OUT</h4>
             <div class="text-start">
                 I'm into olympic weightlifting. Though I planned to 
-                start olympic weightlifting in America, I still cannot find places to learn becuase of covid.
+                start olympic weightlifting in America, I still cannot find places to learn because of covid.
             </div>
         </div>
     </div>
