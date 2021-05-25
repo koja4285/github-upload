@@ -52,8 +52,8 @@
                         'placeholder' => 'Must be 4 - 32 length'
                     ]);
                     echo $this->Form->control('email', [
-                        'label' => 'E-mail (Optional)',
-                        'placeholder' => 'seriously@optional.ucf.edu'
+                        'label' => 'E-mail (Please doublecheck your email address)',
+                        'placeholder' => 'noLonger@optional.ucf.edu'
                     ]);
                 ?>
             </fieldset>

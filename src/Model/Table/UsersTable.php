@@ -73,10 +73,7 @@ class UsersTable extends Table
         $validator
             ->scalar('password')
             ->lengthBetween('password', [4, 32], __('The length must be between 4 and 32.'))
-            /**
-             * @todo white space validation
-             */
-            // ->regex('password', '^(?!.* )(?=.*[a-zA-Z0-9])', __('Cannot contain white space'))
+            ->notBlank('password', __('It is empty or might contain whitespaces.'))
             ->notEmptyString('password', __('Fill out this field.'));
 
         $validator
@@ -92,8 +89,7 @@ class UsersTable extends Table
 
         $validator
             ->email('email')
-            ->notBlank('email', __('Cannot contain white space.'))
-            ->allowEmptyString('email');
+            ->notBlank('email', __('It is empty or might contain whitespaces.'));
 
         return $validator;
     }

@@ -250,7 +250,7 @@ class UsersController extends AppController
             }
     
         }
-        catch (MethodNotAllowedException $e)
+        catch (\Cake\Http\Exception\MethodNotAllowedException $e)
         {
             $this->Flash->error(__('GET HTTP method is not allowed.'));
         }
