@@ -18,6 +18,11 @@
 
 namespace App\Controller;
 
+use Cake\Core\Exception\CakeException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Mailer\MailerAwareTrait;
+use Cake\ORM\Exception\MissingEntityException;
+
 /**
  * Users Controller
  *
@@ -26,6 +31,7 @@ namespace App\Controller;
  */
 class UsersController extends AppController
 {
+    use MailerAwareTrait;
 
     /**
      * Initilize method
@@ -38,7 +44,7 @@ class UsersController extends AppController
 
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
+        $this->Authentication->addUnauthenticatedActions(['login', 'add', 'verify']);
 
         // Configure Authorization actions
         $this->Authorization->skipAuthorization(['login']);
@@ -71,6 +77,14 @@ class UsersController extends AppController
 
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
+            // If the user is not activated, logout immediately.
+            $thisUser = $this->request->getAttribute('identity')->getOriginalData();
+            if (!$thisUser->active) {
+                $this->Flash->error(__('The user is not activated.'));
+                $this->Authentication->logout();
+                return $this->render();
+            }
+
             // If redirect query param is not defined, redirect to /posts after login success
             $redirect = $this->request->getQuery('redirect', $this->Authentication->getLoginRedirect());
             
@@ -125,6 +139,13 @@ class UsersController extends AppController
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'view');
 
+        // If the user is not activated, logout immediately.
+        if (!$thisUser->active) {
+            $this->Authentication->logout();
+            $this->Flash->error(__('The user is not activated.'));
+            return $this->redirect(['controller' => 'Posts', 'action' => 'index']);
+        }
+
         $user = $this->Users->get($id, [
             'contain' => ['Comments.Posts'],
         ]);
@@ -132,11 +153,10 @@ class UsersController extends AppController
     }
 
 
-
     /**
      * Add method. Basically sign up method.
      * This is unauthenticated method.
-     * Only admin and unlogged-in user can add (or sign up) a user.
+     * Only admin and unlogged-in user can add (sign up) a user.
      * 
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -171,20 +191,17 @@ class UsersController extends AppController
         // Unlogged in user or admin can reach here.
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            // If the email is empty, it should be unset and stores null.
             $requestData = $this->request->getData();
-            if (empty($requestData['email']))
-            {
-                unset($requestData['email']);
-            }
-
+            // Generate hash
+            $requestData['hash'] = md5( strval( rand(1, 9999) ) );
             $user = $this->Users->patchEntity($user, $requestData);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                // Send a verification email
+                $this->getMailer('User')->send('verify', [$user]);
+                return $this->render('added');
+            } else {
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
@@ -204,9 +221,7 @@ class UsersController extends AppController
 
 
         // Takes logged in user.
-        $user = $this->Users->get($thisUser->getIdentifier(), [
-            'contain' => [],
-        ]);
+        $user = $this->Users->get($thisUser->getIdentifier());
 
         if ($this->request->is(['patch', 'post', 'put']))
         {
@@ -239,6 +254,11 @@ class UsersController extends AppController
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'delete');
 
+        // If the user deletes himself, logout.
+        if ($thisUser->getIdentifier() == $id && !$thisUser->isAdmin()) {
+            $this->Authentication->logout();
+        }
+
         try
         {
             $this->request->allowMethod(['post', 'delete']);
@@ -263,4 +283,57 @@ class UsersController extends AppController
         }
 
     }
+
+    /**
+     * Verify method
+     *
+     * @return \Cake\Http\Response|null|void Renders view.
+     * @throws \Cake\Http\Exception\BadRequestException when the query params contain null.
+     * @throws \Cake\Core\Exception\CakeException when a user cannot retrieved by email.
+     * @throws \Cake\Core\Exception\CakeException when hash values are not the same.
+     * @throws \Cake\Core\Exception\CakeException when the user cannot be updated.
+     */
+    public function verify()
+    {
+        try 
+        {        
+            // @todo authC and authZ
+            // Get email
+            $email = $this->request->getQuery('email');
+            $hash  = $this->request->getQuery('hash');
+            if ($email == null || $hash == null) {
+                throw new BadRequestException('Bad request for email verification. Line:' . __LINE__);
+            }
+
+            // Get user by email
+            $user = $this->Users->find('all', [
+                'fields' => ['id', 'hash', 'active'],
+                'conditions' => ['email' => $email]
+            ])->first();
+            if ($user == null) {
+                throw new MissingEntityException('A user cannot be found on email verfication. Line:' . __LINE__);
+            }
+
+            // Compare hash value
+            if ($user->hash != $hash) {
+                throw new CakeException('Hash values are not identical on email verfication. ');
+            }
+
+            $user->active = true;
+            if ($this->Users->save($user)) {
+                // do nothing
+            } else {
+                throw new CakeException('The user cannot be updated.');
+            }
+
+            // Send a welcome email
+            $this->getMailer('User')->send('welcome', [$user]);
+        }
+        catch (CakeException $e)
+        {
+            $this->set('errorMsg', $e->getMessage());
+            return $this->render('verify_error');
+        }
+    }
+
 }

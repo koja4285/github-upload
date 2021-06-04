@@ -30,6 +30,10 @@ use Authentication\IdentityInterface;
  * @property string $password
  * @property string $role
  * @property string|null $email
+ * @property boolean $active
+ * @property string|null $hash
+ * @property boolean $post_sbsc
+ * @property boolean $reply_sbsc
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
@@ -51,6 +55,10 @@ class User extends Entity implements IdentityInterface
         'password' => true,
         'role' => true,
         'email' => true,
+        'active' => true,
+        'hash' => true,
+        'post_sbsc' => true,
+        'reply_sbsc' => true,
         'created' => true,
         'modified' => true,
         'comments' => true,
@@ -90,6 +98,16 @@ class User extends Entity implements IdentityInterface
     public function getOriginalData()
     {
         return $this;
+    }
+
+    /**
+     * Check if this user is admin.
+     * 
+     * @return bool true if the user is admin.
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 
 }

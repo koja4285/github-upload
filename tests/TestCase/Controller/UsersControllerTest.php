@@ -24,55 +24,128 @@ class UsersControllerTest extends TestCase
     protected $fixtures = [
         'app.Users',
         'app.Comments',
+        'app.Posts',
     ];
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->Users = $this->getTableLocator()->get('Users');
+    }
+
+
+
     /**
-     * Test index method
-     *
+     * Test verify method
      * @return void
      */
-    public function testIndex(): void
+    public function testVerify(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $user = $this->Users->find('all', [
+            'fields' => ['username', 'hash', 'active'],
+            'conditions' => ['email' => 'koja_k@om']
+        ])->first();
+        $this->assertNotEmpty($user);
+        $this->assertEquals(false, $user->active);
+
+        $this->get('/users/verify?email=koja_k@om&hash=bc6d753857fe3dd4275dff707dedf329');
+
+        $this->assertResponseOk();
+
+        $user = $this->Users->find('all', [
+            'fields' => ['username', 'hash', 'active'],
+            'conditions' => ['email' => 'koja_k@om']
+        ])->first();
+        $this->assertNotEmpty($user);
+        $this->assertEquals(true, $user->active);
     }
 
     /**
-     * Test view method
-     *
+     * Test login method
      * @return void
      */
-    public function testView(): void
+    // public function testLoginFailed()
+    // {
+    // }
+
+    /**
+     * test view method
+     * @return void
+     */
+    public function testViewAuthAcivated()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 2]
+        ])->first();
+        
+        $this->session([
+            'Auth' => $user,
+        ]);
+
+        $this->assertEquals(true, $user->active);
+        $this->get('/users/view/2');
+        $this->assertResponseOk();
     }
 
     /**
-     * Test add method
-     *
      * @return void
      */
-    public function testAdd(): void
+    public function testViewAuthWithoutActivation()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 1]
+        ])->first();
+        
+        $this->session([
+            'Auth' => $user,
+        ]);
+
+        $this->assertEquals(false, $user->active);
+        $this->get('/users/view/1');
+        $this->assertResponseCode(302);
+        $this->assertRedirectContains('posts');
+        // $this->assertResponseContains('The user is not activated.');
     }
 
     /**
-     * Test edit method
-     *
+     * test login method without activation
      * @return void
      */
-    public function testEdit(): void
+    public function testLoginWithoutActivation()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 1]
+        ])->first();
+        
+        // Authentication
+        $this->session([
+            'Auth' => $user,
+        ]);
+
+        // not active
+        $this->assertEquals($user->active, false);
+        $this->get('/users/login');
+        $this->assertResponseContains('The user is not activated.');
     }
 
     /**
-     * Test delete method
-     *
+     * test login method
      * @return void
      */
-    public function testDelete(): void
+    public function testLogin()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 2]
+        ])->first();
+        
+        // Authentication
+        $this->session([
+            'Auth' => $user,
+        ]);
+
+        // not active
+        $this->assertEquals($user->active, true);
+        $this->get('/users/login');
+        $this->assertResponseNotContains('The user is not activated.');
     }
 }
