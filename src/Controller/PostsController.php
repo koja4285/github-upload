@@ -150,15 +150,20 @@ class PostsController extends AppController
             unset($data['editordata']);
 
             $post = $this->Posts->patchEntity($post, $data);
+            $isNew = $post->isNew(); /* It becomes false after saving $post, so I want to store the value before saving it. */
             if ($this->Posts->save($post))
             {
-                if ($post->isNew())
+                if ($isNew)
                 {
                     // send emails to subscribers
                     $emails = $this->_getSubscribersEmails('post_sbsc');
                     $this->getMailer('Post')->send('newPost', [$post, $emails]);
+                    $this->Flash->success(__('Successfully added a new post!'));
                 }
-                $this->Flash->success(__('Successfully added a new post!'));
+                else
+                {
+                    $this->Flash->success(__('Edited the post.'));
+                }
                 return $this->redirect(['action' => 'index']);
             }
             else

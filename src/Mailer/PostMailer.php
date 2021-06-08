@@ -31,7 +31,7 @@ class PostMailer extends Mailer
      */
     private function _setUpHtml($post, $emails) {
         foreach ($emails as $email) {
-            $this->setBcc($email);
+            $this->addBcc($email);
         }
         $this
             ->setEmailFormat('html')
