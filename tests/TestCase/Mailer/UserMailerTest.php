@@ -16,13 +16,15 @@
 namespace App\Test\TestCase\Mailer;
 
 use App\Mailer\UserMailer;
-use App\Mailer\WelcomeMailer;
 use App\Model\Entity\User;
 
 use Cake\TestSuite\EmailTrait;
 use Cake\TestSuite\TestCase;
 
-class WelcomeMailerTestCase extends TestCase
+/**
+ * App\Mailer\UserMailer Test Case
+ */
+class UserMailerTest extends TestCase
 {
     use EmailTrait;
 

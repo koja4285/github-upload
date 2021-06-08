@@ -2,8 +2,8 @@
 /**
  * @link https://dashboard.unlayer.com/create/modern-subscription-email
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- * @var string $settingURL
+ * @var \App\Model\Entity\Post $post
+ * @var string $newPostURL
  */
 
 ?>
@@ -302,7 +302,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:georgia,palatino;" align="left">
         
   <div style="color: #236fa1; line-height: 130%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 130%;"><span style="font-size: 72px; line-height: 93.60000000000001px;"><span style="line-height: 93.60000000000001px; font-size: 72px;">Welcome</span></span></p>
+    <p style="font-size: 14px; line-height: 130%;"><span style="font-size: 72px; line-height: 93.60000000000001px;"><span style="line-height: 93.60000000000001px; font-size: 72px;">New Post</span></span></p>
   </div>
 
       </td>
@@ -316,7 +316,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:georgia,palatino;" align="left">
         
   <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 30px; line-height: 42px;"><?= $user->username ?></span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 30px; line-height: 42px;"><a href="<?= $newPostURL ?>">Read</a></span></p>
   </div>
 
       </td>
@@ -330,7 +330,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:georgia,palatino;" align="left">
         
   <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">&nbsp;I just want to say, by default, you are subscribing all the email notifications.<br />&nbsp;If you wanna change your preference, please go to your <a href="<?= $settingURL ?>">setting</a>.<br />&nbsp;Again, I appreciate you sparing your time and signing up my silly website.</p>
+    <p style="font-size: 14px; line-height: 140%;">&nbsp;Title: <?= $post->title ?><br /></p>
   </div>
 
       </td>

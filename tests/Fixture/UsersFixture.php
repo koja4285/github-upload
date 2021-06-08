@@ -72,6 +72,19 @@ class UsersFixture extends TestFixture
                 'created' => '2021-05-26 15:09:34',
                 'modified' => '2021-05-26 15:09:34',
             ],
+            [
+                'id' => 3,
+                'username' => 'notSubscriber',
+                'password' => 'notSubscriber',
+                'role' => 'guest',
+                'email' => 'alalal@not.sub',
+                'active' => 1,
+                'hash' => 'bc6d753857fe3dd4275dff707dedf329',
+                'post_sbsc' => 0,
+                'reply_sbsc' => 0,
+                'created' => '2021-05-26 15:09:34',
+                'modified' => '2021-05-26 15:09:34',
+            ],
         ];
         parent::init();
     }
