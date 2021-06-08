@@ -12,3 +12,10 @@ a.html-link {
 a.html-link:hover {
     text-decoration: underline;
 }
+
+
+/* edit */
+div.flex-label {
+    display: flex;
+    align-items: center;
+}

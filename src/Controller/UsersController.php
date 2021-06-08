@@ -128,6 +128,7 @@ class UsersController extends AppController
 
     /**
      * View method
+     * Basically, users' preference setting page
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
@@ -135,7 +136,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        // Authorization: Check if the user is admin
+        // Authorization: Check if the user is admin or logined user
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'view');
 
@@ -190,7 +191,8 @@ class UsersController extends AppController
 
         // Unlogged in user or admin can reach here.
         $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is('post'))
+        {
             $requestData = $this->request->getData();
             // Generate hash
             $requestData['hash'] = md5( strval( rand(1, 9999) ) );
@@ -208,6 +210,7 @@ class UsersController extends AppController
 
     /**
      * Edit method
+     * Users can change their preferences such as username, password, subscription etc.
      *
      * @param string|null $field field name to change.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.

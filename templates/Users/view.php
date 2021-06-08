@@ -75,6 +75,19 @@ echo $this->Html->css('users', ['block' => 'css']);
                     </td>
                 </tr>
                 <tr>
+                    <th><?= __('Notification') ?></th>
+                    <td>
+                        New Post Notification: <b><?= ($user->post_sbsc) ? 'On' : 'Off' ?><br></b>
+                        Comment Reply Notification: <b><?= ($user->reply_sbsc) ? 'On' : 'Off' ?></b>
+                    </td>
+                    <td>
+                        <?= $this->Html->link(__('Edit'),
+                            ['action' => 'edit', 'subscription'],
+                            ['class' => 'btn btn-outline-primary']
+                        ) ?>
+                    </td>
+                </tr>
+                <tr>
                     <th><?= __('Since') ?></th>
                     <td><?= h($user->created->format('Y-m-d H:m')) ?></td>
                     <td></td>
