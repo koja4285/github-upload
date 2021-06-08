@@ -301,28 +301,37 @@ class UsersController extends AppController
             // Get email
             $email = $this->request->getQuery('email');
             $hash  = $this->request->getQuery('hash');
-            if ($email == null || $hash == null) {
+            if ($email == null || $hash == null)
+            {
                 throw new BadRequestException('Bad request for email verification. Line:' . __LINE__);
             }
 
             // Get user by email
             $user = $this->Users->find('all', [
-                'fields' => ['id', 'hash', 'active'],
                 'conditions' => ['email' => $email]
             ])->first();
-            if ($user == null) {
+            if ($user == null)
+            {
                 throw new MissingEntityException('A user cannot be found on email verfication. Line:' . __LINE__);
+            }
+            else if ($user->active)
+            {
+                throw new CakeException('A user is already verified.');
             }
 
             // Compare hash value
-            if ($user->hash != $hash) {
+            if ($user->hash != $hash)
+            {
                 throw new CakeException('Hash values are not identical on email verfication. ');
             }
 
             $user->active = true;
-            if ($this->Users->save($user)) {
+            if ($this->Users->save($user))
+            {
                 // do nothing
-            } else {
+            }
+            else
+            {
                 throw new CakeException('The user cannot be updated.');
             }
 

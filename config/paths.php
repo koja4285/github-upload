@@ -92,8 +92,3 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'c
  */
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
-
-/**
- * Path to mailer's image directory
- */
-define('EMAIL_IMAGE', ROOT . DS . 'templates' . DS . 'email' . DS . 'images' . DS);
