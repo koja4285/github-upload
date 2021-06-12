@@ -5,6 +5,11 @@
 * @author    Kohei Koja
 */
 
+/* breadcrumbs */
+ul.no-bullet {
+    list-style: none;
+}
+
 /* view */
 a.html-link {
     color: white;

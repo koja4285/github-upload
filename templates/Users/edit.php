@@ -21,19 +21,15 @@
 echo $this->Html->css('users', ['block' => 'css']);
 ?>
 <div class="row">
-    <?php /*
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    */ ?>
+    <?php
+        $this->Breadcrumbs->add([
+            ['title' => 'Blog Home', 'url' => ['controller' => 'posts']],
+            ['title' => 'Back to Account Setting', 'url' => ['contoller' => 'users', 'action' => 'view', $user->id]]
+        ]);
+        echo $this->Breadcrumbs->render(
+            ['class' => 'no-bullet'],
+        );
+    ?>
     <div class="column-responsive">
         <div class="users form content">
             <?= $this->Form->create($user) ?>

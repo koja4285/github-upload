@@ -47,11 +47,11 @@ class UserMailer extends Mailer
             ->setSubject('Welcome ' . $user->username . '!')
             ->setViewVars('settingURL', Router::url([
                 'controller' => 'users',
-                'action' => 'view',
-                $user->getIdentifier()
+                'action' => 'edit',
+                'subscription',
             ], true))
             ->viewBuilder()
-                ->setLayout(null)
+                ->setLayout('goodLooking')
                 ->setTemplate('welcome');
     }
 

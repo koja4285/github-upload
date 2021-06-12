@@ -33,6 +33,11 @@ class UsersControllerTest extends TestCase
         $this->Users = $this->getTableLocator()->get('Users');
     }
 
+    private function _csrfSetUp(): void
+    {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+    }
 
 
     /**
@@ -59,14 +64,6 @@ class UsersControllerTest extends TestCase
         $this->assertNotEmpty($user);
         $this->assertEquals(true, $user->active);
     }
-
-    /**
-     * Test login method
-     * @return void
-     */
-    // public function testLoginFailed()
-    // {
-    // }
 
     /**
      * test view method
@@ -147,5 +144,39 @@ class UsersControllerTest extends TestCase
         $this->assertEquals($user->active, true);
         $this->get('/users/login');
         $this->assertResponseNotContains('The user is not activated.');
+    }
+
+
+    /**
+     * test edits
+     * @return void
+     */
+    public function testEditSub(): void
+    {
+        $this->_csrfSetUp();
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 1]
+        ])->first();
+        debug(array_filter($user->toArray(), 'is_scalar'));
+        
+        // Authentication
+        $this->session([
+            'Auth' => $user,
+        ]);
+
+        $this->assertEquals(true, $user->post_sbsc);
+        $this->assertEquals(true, $user->reply_sbsc);
+        // $this->get('users/edit/subscription');
+        $this->put('users/edit/subscription', [
+            'post_sbsc' => 0,
+            'reply_sbsc' => 0
+        ]);
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 1]
+        ])->first();
+        $this->assertRedirectContains('users/view');
+        debug(array_filter($user->toArray(), 'is_scalar'));
+        $this->assertEquals(false, $user->post_sbsc);
+        $this->assertEquals(false, $user->reply_sbsc);
     }
 }

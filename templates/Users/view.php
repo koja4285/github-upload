@@ -24,19 +24,12 @@ echo $this->Html->css('users', ['block' => 'css']);
 <div class="row">
     <aside class="column">
         <div class="side-nav">
-            <?php /*
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-            */ ?>
             <?= $this->Html->link(__('Back to blog home'),
                 ['controller' => 'posts', 'action' => 'index'],
                 ['class' => 'side-nav-item']) ?>
             <?= $this->Form->postLink(__('Delete Account'),
                 ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete?'),
-                'class' => 'side-nav-item']
+                ['confirm' => __('Are you sure you want to delete?'), 'class' => 'side-nav-item']
             ) ?>
         </div>
     </aside>

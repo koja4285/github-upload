@@ -47,7 +47,7 @@ class CommentMailer extends Mailer
         $this->_setUpHtml($comment, $comment->parentComment->user);
         
         // set who replies
-        $replier = (is_null($comment->parent_id)) ? $comment->guestname : $comment->user->username;
+        $replier = (is_null($comment->user_id)) ? $comment->guestname : $comment->user->username;
 
         $this
             ->setSubject('Someone replied to your comment')
@@ -58,7 +58,7 @@ class CommentMailer extends Mailer
             ], true))
             ->setViewVars('replier', $replier)
             ->viewBuilder()
-                ->setLayout(null)
+                ->setLayout('goodLooking')
                 ->setTemplate('reply');
     }
 }

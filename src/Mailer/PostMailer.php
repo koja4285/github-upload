@@ -55,7 +55,7 @@ class PostMailer extends Mailer
                 $post->slug
             ], true))
             ->viewBuilder()
-                ->setLayout(null)
+                ->setLayout('goodLooking')
                 ->setTemplate('new_post');
     }
 }

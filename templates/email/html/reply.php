@@ -18,44 +18,50 @@
  * @var string $replier
  */
 
-?>
-<style>
+$style = '
 .dialogbox .body {
-  position: relative;
-  max-width: 500px;
-  height: auto;
-  margin: 20px 10px;
-  padding: 5px;
-  background-color: #DADADA;
-  border-radius: 3px;
-  border: 5px solid #ccc;
-}
+    position: relative;
+    max-width: 500px;
+    height: auto;
+    margin: 20px 10px;
+    padding: 5px;
+    background-color: #DADADA;
+    border-radius: 3px;
+    border: 5px solid #ccc;
+  }
+  
+  .body .message {
+    min-height: 30px;
+    border-radius: 3px;
+    font-family: Arial;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #797979;
+  }
+';
+$this->assign('style', $style);
+$this->assign('emailTitle', '');
+$this->assign('subtitle', 'Hello <b>' . $comment->parentComment->user->username . '</b>');
+$body = '<b>' . $replier . '</b> replied
+<div class="dialogbox">
+    <div class="body">
+        <div class="message">
+            <span>' . $comment->content . '</span>
+        </div>
+    </div>
+</div>
+to this comment of yours:
+<div class="dialogbox">
+    <div class="body">
+        <div class="message">
+            <span>' . $comment->parentComment->content . '</span>
+        </div>
+    </div>
+</div>'
+. $this->Html->link('See the comment', ['controller' => 'posts', 'action' => 'view', $comment->post->slug, '_full' => true]);
 
-.body .message {
-  min-height: 30px;
-  border-radius: 3px;
-  font-family: Arial;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #797979;
-}
-</style>
-<p>
-    Hello <b><?= $comment->parentComment->user->username ?></b>,<br><br>
-    <b><?= $replier ?></b> replied
-</p>
-<div class="dialogbox">
-    <div class="body">
-        <div class="message">
-            <span><?= $comment->content ?></span>
-        </div>
-    </div>
-</div>
-<p>to this comment of yours:</p>
-<div class="dialogbox">
-    <div class="body">
-        <div class="message">
-            <span><?= $comment->parentComment->content ?></span>
-        </div>
-    </div>
-</div>
+$this->assign('body', $body);
+$footer = '<p style="font-size: 14px; line-height: 140%;">You are recieving this email becuase you subscribe.<br> If you do not want to receive this email, please ' . 
+          $this->Html->link('subscribe', ['controller' => 'users', 'action' => 'edit', 'subscription']) . '</p>';
+$this->assign('footer', $footer);
+?>
