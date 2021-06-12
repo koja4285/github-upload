@@ -61,7 +61,7 @@ to this comment of yours:
 . $this->Html->link('See the comment', ['controller' => 'posts', 'action' => 'view', $comment->post->slug, '_full' => true]);
 
 $this->assign('body', $body);
-$footer = '<p style="font-size: 14px; line-height: 140%;">You are recieving this email becuase you subscribe.<br> If you do not want to receive this email, please ' . 
-          $this->Html->link('subscribe', ['controller' => 'users', 'action' => 'edit', 'subscription']) . '</p>';
+$footer = '<p style="font-size: 14px; line-height: 140%;">You are receiving this email because you subscribe.<br> If you do not want to receive this email, please ' . 
+          $this->Html->link('unsubscribe', ['controller' => 'users', 'action' => 'edit', 'subscription']) . '</p>';
 $this->assign('footer', $footer);
 ?>
