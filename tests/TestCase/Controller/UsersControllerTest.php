@@ -157,7 +157,6 @@ class UsersControllerTest extends TestCase
         $user = $this->Users->find('all', [
             'conditions' => ['id' => 1]
         ])->first();
-        debug(array_filter($user->toArray(), 'is_scalar'));
         
         // Authentication
         $this->session([
@@ -175,7 +174,6 @@ class UsersControllerTest extends TestCase
             'conditions' => ['id' => 1]
         ])->first();
         $this->assertRedirectContains('users/view');
-        debug(array_filter($user->toArray(), 'is_scalar'));
         $this->assertEquals(false, $user->post_sbsc);
         $this->assertEquals(false, $user->reply_sbsc);
     }
