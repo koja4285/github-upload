@@ -74,13 +74,24 @@ class CommentsControllerTest extends TestCase
         $this->_login();
         $this->_csrfSetUp();
         $this->_assertCommentCount(4);
-        $this->configRequest([
-            'data' => ['content' => 'hello']
+        $this->post('comments/add/1?redirect=posts/index', [
+            'content' => 'hello',
         ]);
-        $this->post('comments/add/1?redirect=posts/index');
         $this->assertRedirectContains('posts');
         $this->_assertCommentCount(5);
-        // debug($this->Comments->find('all')->last());
+        $admin = $this->Comments->Users->find('all', [
+            'conditions' => ['role' => 'admin'],
+            'fields' => ['email']
+        ])->first();
+        if ($admin->reply_sbsc)
+        {
+            $this->assertMailSentTo($admin->email);
+            $this->assertMailContainsHtml('hello');
+        }
+        else
+        {
+            $this->assertNoMailSent();
+        }
     }
 
     public function testAddWithParentCommentSubscription(): void
@@ -97,6 +108,7 @@ class CommentsControllerTest extends TestCase
         $this->assertEquals(true, $parentCommentUser->reply_sbsc);
         $this->assertMailSentTo($parentCommentUser->email);
         $this->assertMailContainsHtml($parentCommentUser->username);
+        $this->assertMailContainsHtml('hello');
     }
 
     public function testAddWithParentCommentNotSubscription(): void

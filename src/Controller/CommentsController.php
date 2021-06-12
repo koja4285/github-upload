@@ -142,6 +142,18 @@ class CommentsController extends AppController
                         $this->getMailer('Comment')->send('reply', [$comment]);
                     }
                 }
+                else // If it's a new comment, send me a notification!
+                {
+                    $comment = $commentsTable->get($comment->id, ['contain' => ['Users', 'Posts']]);
+                    $admin = $this->Comments->Users->find('all', [
+                        'conditions' => ['role' => 'admin'],
+                        'fields' => ['email']
+                    ])->first();
+                    if ($admin->reply_sbsc)
+                    {
+                        $this->getMailer('Comment')->send('newComment', [$comment, $admin->email]);
+                    }
+                }
                 $this->Flash->success(__('Thanks for commenting!'));
             }
             else
