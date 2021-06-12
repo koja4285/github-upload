@@ -134,7 +134,7 @@ class CommentsController extends AppController
             if ($this->Comments->save($comment))
             {
                 // If the comment is a reply, send a notification.
-                if ($parentComment != null)
+                if ($parentComment != null && $parentComment->user_id != null)
                 {
                     $comment = $commentsTable->get($comment->id, ['contain' => ['Users', 'ParentComments.Users', 'Posts']]);
                     if ($comment->parentComment->user->reply_sbsc)
@@ -142,12 +142,12 @@ class CommentsController extends AppController
                         $this->getMailer('Comment')->send('reply', [$comment]);
                     }
                 }
-                else // If it's a new comment, send me a notification!
+                else if ($parentComment == null) // If it's a new comment by a guest, send me a notification!
                 {
                     $comment = $commentsTable->get($comment->id, ['contain' => ['Users', 'Posts']]);
                     $admin = $this->Comments->Users->find('all', [
                         'conditions' => ['role' => 'admin'],
-                        'fields' => ['email']
+                        'fields' => ['email', 'reply_sbsc']
                     ])->first();
                     if ($admin->reply_sbsc)
                     {

@@ -42,7 +42,7 @@ $style = '
 $this->assign('style', $style);
 $this->assign('emailTitle', '');
 $this->assign('subtitle', 'Hello');
-$body = '<b>' . $commenter . '</b> replied
+$body = '<b>' . $commenter . '</b> commented
 <div class="dialogbox">
     <div class="body">
         <div class="message">
@@ -51,11 +51,10 @@ $body = '<b>' . $commenter . '</b> replied
     </div>
 </div>
 to this post:'
-. '"' . $comment->post->title . '"<br>'
-. $this->Html->link('See the comment', ['controller' => 'posts', 'action' => 'view', $comment->post->slug, '_full' => true]);
+. $this->Html->link('"' . $comment->post->title . '"', ['controller' => 'posts', 'action' => 'view', $comment->post->slug, '_full' => true]);
 
 $this->assign('body', $body);
 $footer = '<p style="font-size: 14px; line-height: 140%;">You are receiving this email because you subscribe.<br> If you do not want to receive this email, please ' . 
-          $this->Html->link('unsubscribe', ['controller' => 'users', 'action' => 'edit', 'subscription']) . '</p>';
+           $this->Html->link('unsubscribe', ['controller' => 'users', 'action' => 'login', '_full' => true]) . '</p>';
 $this->assign('footer', $footer);
 ?>

@@ -102,6 +102,17 @@ class CommentsFixture extends TestFixture
                 'created' => '2021-02-05 15:57:11',
                 'modified' => '2021-02-05 15:57:11',
             ],
+            [
+                'id' => 5,
+                'post_id' => 1,
+                'user_id' => null,
+                'parent_id' => null,
+                'level' => 0,
+                'guestname' => 'guest_aaa',
+                'content' => 'This is a comment by a guest.',
+                'created' => '2021-02-05 15:57:11',
+                'modified' => '2021-02-05 15:57:11',
+            ],
         ];
         parent::init();
     }
