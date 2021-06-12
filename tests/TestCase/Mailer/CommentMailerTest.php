@@ -64,6 +64,6 @@ class CommentMailerTest extends TestCase
     
         $this->assertMailSentTo($comment->parentComment->user->email);
         $this->assertMailContainsHtml($comment->parentComment->user->username);
-        $this->assertMailContainsHtml($comment->content);
+        $this->assertMailContainsHtml($comment->user->username);
     }
 }

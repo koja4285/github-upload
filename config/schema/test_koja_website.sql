@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
     `id` INT unsigned NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(255) NOT NULL DEFAULT '',
     `slug` VARCHAR(255) NOT NULL DEFAULT '',
-    `body` MEDIUMTEXT NOT NULL DEFAULT '',
+    `body` MEDIUMTEXT DEFAULT NULL,
     `view_count` INT unsigned NOT NULL DEFAULT 0,
     `created` datetime DEFAULT CURRENT_TIMESTAMP, -- optional, requires MySQL 5.6.5+
     `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- optional, requires MySQL 5.6.5+
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     `rght` INT unsigned DEFAULT NULL,
     `level` INT unsigned,
     `guestname` VARCHAR(32) NOT NULL DEFAULT '',
-    `content` TEXT NOT NULL DEFAULT '',
+    `content` TEXT DEFAULT NULL,
     `created` datetime DEFAULT CURRENT_TIMESTAMP, -- optional, requires MySQL 5.6.5+
     `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- optional, requires MySQL 5.6.5+
     PRIMARY KEY (`id`),

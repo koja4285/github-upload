@@ -39,6 +39,25 @@ class UsersControllerTest extends TestCase
         $this->enableSecurityToken();
     }
 
+    /** test adding user */
+    public function testAdd(): void
+    {
+        $user = $this->Users->find('all', [
+            'role' => 'admin',
+        ])->first();
+        $this->assertNotEmpty($user);
+        $this->post('/users/add', [
+            'username' => 'user1',
+            'password' => 'user1',
+            'password_confirm' => 'user1',
+            'email' => 'koja_k@outlook.com',
+        ]);
+        $user = $this->Users->find('all', [
+            'username' => 'user1',
+        ])->first();
+        $this->assertNotNull($user->hash);
+    }
+
 
     /**
      * Test verify method
@@ -157,7 +176,6 @@ class UsersControllerTest extends TestCase
         $user = $this->Users->find('all', [
             'conditions' => ['id' => 1]
         ])->first();
-        debug(array_filter($user->toArray(), 'is_scalar'));
         
         // Authentication
         $this->session([
@@ -175,7 +193,6 @@ class UsersControllerTest extends TestCase
             'conditions' => ['id' => 1]
         ])->first();
         $this->assertRedirectContains('users/view');
-        debug(array_filter($user->toArray(), 'is_scalar'));
         $this->assertEquals(false, $user->post_sbsc);
         $this->assertEquals(false, $user->reply_sbsc);
     }

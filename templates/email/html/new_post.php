@@ -21,7 +21,7 @@ $this->assign('style', $style);
 $this->assign('emailTitle', 'New Post');
 $this->assign('subtitle', '&#8220;' . $post->title . '&#8221;');
 $this->assign('body', $this->Html->link('Read', $newPostURL, ['class' => 'button']));
-$footer = '<p style="font-size: 14px; line-height: 140%;">You are recieving this email becuase you subscribe.<br> If you do not want to receive this email, please ' . 
-          $this->Html->link('unsubscribe', ['controller' => 'users', 'action' => 'edit', 'subscription']) . '</p>';
+$footer = '<p style="font-size: 14px; line-height: 140%;">You are receiving this email because you subscribe.<br> If you do not want to receive this email, please ' . 
+           $this->Html->link('unsubscribe', ['controller' => 'users', 'action' => 'login', '_full' => true]) . '</p>';
 $this->assign('footer', $footer);
 ?>

@@ -28,12 +28,12 @@ class CommentMailer extends Mailer
     /**
      * Setting up basic configs of HTML emails.
      * @param \App\Model\Entity\Comment $comment
-     * @param \App\Model\Entity\Comment $user
+     * @param string $email
      */
-    private function _setUpHtml($comment, $user) {
+    private function _setUpHtml($comment, $email) {
         $this
             ->setEmailFormat('html')
-            ->setTo($user->email)
+            ->setTo($email)
             ->setFrom('noreply@koja.website', 'Koja\'s website')
             ->setViewVars('comment', $comment);
     }
@@ -44,7 +44,7 @@ class CommentMailer extends Mailer
      */
     public function reply($comment)
     {
-        $this->_setUpHtml($comment, $comment->parentComment->user);
+        $this->_setUpHtml($comment, $comment->parentComment->user->email);
         
         // set who replies
         $replier = (is_null($comment->user_id)) ? $comment->guestname : $comment->user->username;
@@ -60,5 +60,30 @@ class CommentMailer extends Mailer
             ->viewBuilder()
                 ->setLayout('goodLooking')
                 ->setTemplate('reply');
+    }
+
+    /**
+     * New comment email
+     * @param \App\Model\Entity\Comment $comment
+     * @param string $email
+     */
+    public function newComment($comment, $email)
+    {
+        $this->_setUpHtml($comment, $email);
+        
+        // set who commenter
+        $commenter = (is_null($comment->user_id)) ? $comment->guestname : $comment->user->username;
+
+        $this
+            ->setSubject($commenter . ' replied to your comment')
+            ->setViewVars('postURL', Router::url([
+                'controller' => 'posts',
+                'action' => 'view',
+                $comment->post->slug
+            ], true))
+            ->setViewVars('commenter', $commenter)
+            ->viewBuilder()
+                ->setLayout('goodLooking')
+                ->setTemplate('new_comment');
     }
 }
