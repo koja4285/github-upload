@@ -72,8 +72,7 @@ echo $this->Html->css('posts', ['block' => 'css']);
 <div>
     <p class="fs-3">
         I write about my life in America. You can freely comment on any posts here.
-        So far, the only perk of creating your own account is to save your own username.
-        In the future, I want to add a notification feature.
+        By creating your account, you can receive notifications on new posts and comment replies.
     </p>
 </div>
 
