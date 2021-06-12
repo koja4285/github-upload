@@ -4,11 +4,12 @@
 -- @email  koja@knights.ucf.edu
 
 
-CREATE DATABASE IF NOT EXISTS `test_koja_website`
-     CHARACTER SET utf8
-     COLLATE = utf8_general_ci;
+-- Configure below based on your database infomation
+-- CREATE DATABASE IF NOT EXISTS `test_koja_website`
+--      CHARACTER SET utf8
+--      COLLATE = utf8_general_ci;
 
-USE `test_koja_website`;
+-- USE `test_koja_website`;
 
 # A singleton pattern for `site_infos`.
 # i.e.) There is one-and-only row in this table.
