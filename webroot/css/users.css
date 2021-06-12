@@ -5,10 +5,22 @@
 * @author    Kohei Koja
 */
 
+/* breadcrumbs */
+ul.no-bullet {
+    list-style: none;
+}
+
 /* view */
 a.html-link {
     color: white;
 }
 a.html-link:hover {
     text-decoration: underline;
+}
+
+
+/* edit */
+div.flex-label {
+    display: flex;
+    align-items: center;
 }

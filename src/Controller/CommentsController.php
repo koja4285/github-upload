@@ -19,6 +19,7 @@
 namespace App\Controller;
 
 use Cake\Http\Exception\InternalErrorException;
+use Cake\Mailer\MailerAwareTrait;
 
 /**
  * Comments Controller
@@ -28,6 +29,9 @@ use Cake\Http\Exception\InternalErrorException;
  */
 class CommentsController extends AppController
 {
+    use MailerAwareTrait;
+
+
     /**
      * Initializer
      */
@@ -129,6 +133,15 @@ class CommentsController extends AppController
             $comment->parent_id = (is_null($parent_id)) ? null : $parentComment->id;
             if ($this->Comments->save($comment))
             {
+                // If the comment is a reply, send a notification.
+                if ($parentComment != null)
+                {
+                    $comment = $commentsTable->get($comment->id, ['contain' => ['Users', 'ParentComments.Users', 'Posts']]);
+                    if ($comment->parentComment->user->reply_sbsc)
+                    {
+                        $this->getMailer('Comment')->send('reply', [$comment]);
+                    }
+                }
                 $this->Flash->success(__('Thanks for commenting!'));
             }
             else

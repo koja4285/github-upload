@@ -128,6 +128,7 @@ class UsersController extends AppController
 
     /**
      * View method
+     * Basically, users' preference setting page
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
@@ -135,7 +136,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        // Authorization: Check if the user is admin
+        // Authorization: Check if the user is admin or logined user
         $thisUser = $this->request->getAttribute('identity')->getOriginalData();
         $this->Authorization->authorize($thisUser, 'view');
 
@@ -190,7 +191,8 @@ class UsersController extends AppController
 
         // Unlogged in user or admin can reach here.
         $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is('post'))
+        {
             $requestData = $this->request->getData();
             // Generate hash
             $requestData['hash'] = md5( strval( rand(1, 9999) ) );
@@ -208,6 +210,7 @@ class UsersController extends AppController
 
     /**
      * Edit method
+     * Users can change their preferences such as username, password, subscription etc.
      *
      * @param string|null $field field name to change.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
@@ -301,28 +304,37 @@ class UsersController extends AppController
             // Get email
             $email = $this->request->getQuery('email');
             $hash  = $this->request->getQuery('hash');
-            if ($email == null || $hash == null) {
+            if ($email == null || $hash == null)
+            {
                 throw new BadRequestException('Bad request for email verification. Line:' . __LINE__);
             }
 
             // Get user by email
             $user = $this->Users->find('all', [
-                'fields' => ['id', 'hash', 'active'],
                 'conditions' => ['email' => $email]
             ])->first();
-            if ($user == null) {
+            if ($user == null)
+            {
                 throw new MissingEntityException('A user cannot be found on email verfication. Line:' . __LINE__);
+            }
+            else if ($user->active)
+            {
+                throw new CakeException('A user is already verified.');
             }
 
             // Compare hash value
-            if ($user->hash != $hash) {
+            if ($user->hash != $hash)
+            {
                 throw new CakeException('Hash values are not identical on email verfication. ');
             }
 
             $user->active = true;
-            if ($this->Users->save($user)) {
+            if ($this->Users->save($user))
+            {
                 // do nothing
-            } else {
+            }
+            else
+            {
                 throw new CakeException('The user cannot be updated.');
             }
 

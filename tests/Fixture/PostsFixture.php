@@ -44,9 +44,9 @@ class PostsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'title' => 'Lorem ipsum dolor sit amet',
-                'slug' => 'Lorem ipsum dolor sit amet',
-                'body' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+                'title' => 'post 1',
+                'slug' => 'post-1',
+                'body' => 'This is a body of post 1.',
                 'view_count' => 1,
                 'created' => '2021-02-05 20:46:57',
                 'modified' => '2021-02-05 20:46:57',

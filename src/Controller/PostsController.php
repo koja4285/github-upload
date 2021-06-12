@@ -18,9 +18,14 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Http\Exception\InternalErrorException;
+use Cake\Http\Exception\MethodNotAllowedException;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Mailer\MailerAwareTrait;
+use Cake\ORM\TableRegistry;
 
 class PostsController extends AppController
 {
+    use MailerAwareTrait;
 
     /**
      * Initializer
@@ -145,9 +150,20 @@ class PostsController extends AppController
             unset($data['editordata']);
 
             $post = $this->Posts->patchEntity($post, $data);
+            $isNew = $post->isNew(); /* It becomes false after saving $post, so I want to store the value before saving it. */
             if ($this->Posts->save($post))
             {
-                $this->Flash->success(__('Successfully added a new post!'));
+                if ($isNew)
+                {
+                    // send emails to subscribers
+                    $emails = $this->_getSubscribersEmails('post_sbsc');
+                    $this->getMailer('Post')->send('newPost', [$post, $emails]);
+                    $this->Flash->success(__('Successfully added a new post!'));
+                }
+                else
+                {
+                    $this->Flash->success(__('Edited the post.'));
+                }
                 return $this->redirect(['action' => 'index']);
             }
             else
@@ -239,6 +255,7 @@ class PostsController extends AppController
      * @param string|null $id Post id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws \Cake\Http\Exception\MethodNotAllowedException When illegal methods are used.
      */
     public function delete($id = null)
     {
@@ -261,6 +278,10 @@ class PostsController extends AppController
         {
             $this->Flash->error(__('GET HTTP method is not allowed.'));
         }
+        catch (RecordNotFoundException $e)
+        {
+            $this->Flash->error(__('The record you try to delte is not found.'));
+        }
         finally
         {
             return $this->redirect([
@@ -269,6 +290,27 @@ class PostsController extends AppController
             ]);
         }
 
+    }
+
+    /**
+     * Get all the subscribers' emails.
+     * @param string $sbscAttr The attibute of subscription.
+     * @return array The subscribers' emails
+     */
+    private function _getSubscribersEmails($sbscAttr) : array {
+        $usersTable = TableRegistry::getTableLocator()->get('Users');
+        $users = $usersTable->find('all', [
+            'condition' => [
+                $sbscAttr => 1,
+                'active' => 1,
+            ]
+        ])
+        ->all();
+        $emails = array();
+        foreach ($users as $user) {
+            array_push($emails, $user->email);
+        }
+        return $emails;
     }
 
 }

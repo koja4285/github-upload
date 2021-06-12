@@ -19,7 +19,9 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use App\Model\Entity\User;
+use Authorization\Identity;
 use Authorization\IdentityInterface;
+use Cake\Cache\InvalidArgumentException;
 
 /**
  * User policy
@@ -126,11 +128,16 @@ class UserPolicy
      * Check if the user is him/herself.
      * 
      * @param \Authorization\IdentityInterface $user The user.
+     * @throws \Cake\Cache\InvalidArgumentException When $user is not instance of App\Model\Entity\User.
      * @return bool
      */
     private function _isOneself(IdentityInterface $user, User $resource)
     {
-        return $user->getIdentifier() === $resource->id;
+        if ($user instanceof \Authorization\Identity) {
+            return $user->getIdentifier() === $resource->id;
+        } else {
+            throw new InvalidArgumentException('The argument $user is expected to be an instance of App\Model\Entity\User instead of ' . gettype($user) . '.');
+        }
     }
 
     // /**

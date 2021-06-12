@@ -24,19 +24,12 @@ echo $this->Html->css('users', ['block' => 'css']);
 <div class="row">
     <aside class="column">
         <div class="side-nav">
-            <?php /*
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-            */ ?>
             <?= $this->Html->link(__('Back to blog home'),
                 ['controller' => 'posts', 'action' => 'index'],
                 ['class' => 'side-nav-item']) ?>
             <?= $this->Form->postLink(__('Delete Account'),
                 ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete?'),
-                'class' => 'side-nav-item']
+                ['confirm' => __('Are you sure you want to delete?'), 'class' => 'side-nav-item']
             ) ?>
         </div>
     </aside>
@@ -70,6 +63,19 @@ echo $this->Html->css('users', ['block' => 'css']);
                     <td>
                         <?= $this->Html->link(__('Edit'),
                             ['action' => 'edit', 'email'],
+                            ['class' => 'btn btn-outline-primary']
+                        ) ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Notification') ?></th>
+                    <td>
+                        New Post Notification: <b><?= ($user->post_sbsc) ? 'On' : 'Off' ?><br></b>
+                        Comment Reply Notification: <b><?= ($user->reply_sbsc) ? 'On' : 'Off' ?></b>
+                    </td>
+                    <td>
+                        <?= $this->Html->link(__('Edit'),
+                            ['action' => 'edit', 'subscription'],
                             ['class' => 'btn btn-outline-primary']
                         ) ?>
                     </td>

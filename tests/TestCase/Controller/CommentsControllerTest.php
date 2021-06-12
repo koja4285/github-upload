@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\CommentsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Cake\TestSuite\EmailTrait;
 
 /**
  * App\Controller\CommentsController Test Case
@@ -15,6 +16,7 @@ use Cake\TestSuite\TestCase;
 class CommentsControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use EmailTrait;
 
     /**
      * Fixtures
@@ -27,24 +29,39 @@ class CommentsControllerTest extends TestCase
         'app.Users',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    public function setUp(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        parent::setUp();
+        $this->Users = $this->getTableLocator()->get('Users');
+        $this->Comments = $this->getTableLocator()->get('Comments');
+    }
+
+    private function _login(): void
+    {
+        $user = $this->Users->find('all', [
+            'conditions' => ['id' => 2]
+        ])->first();
+        
+        $this->session([
+            'Auth' => $user,
+        ]);
+    }
+
+    private function _csrfSetUp(): void
+    {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
     }
 
     /**
-     * Test view method
-     *
+     * Comment count test
+     * 
      * @return void
      */
-    public function testView(): void
+    private function _assertCommentCount($count)
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $commentCount = $this->Comments->find('all')->count();
+        $this->assertEquals($count, $commentCount);
     }
 
     /**
@@ -52,28 +69,66 @@ class CommentsControllerTest extends TestCase
      *
      * @return void
      */
-    public function testAdd(): void
+    public function testAddWithoutParent(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->_login();
+        $this->_csrfSetUp();
+        $this->_assertCommentCount(4);
+        $this->configRequest([
+            'data' => ['content' => 'hello']
+        ]);
+        $this->post('comments/add/1?redirect=posts/index');
+        $this->assertRedirectContains('posts');
+        $this->_assertCommentCount(5);
+        // debug($this->Comments->find('all')->last());
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testAddWithParentCommentSubscription(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->_login();
+        $this->_csrfSetUp();
+        $this->_assertCommentCount(4);
+        $this->post('comments/add/1/1?redirect=posts/index', [
+            'content' => 'hello',
+        ]);
+        $this->assertRedirectContains('posts');
+        $this->_assertCommentCount(5);
+        $parentCommentUser = $this->Users->get(1);
+        $this->assertEquals(true, $parentCommentUser->reply_sbsc);
+        $this->assertMailSentTo($parentCommentUser->email);
+        $this->assertMailContainsHtml($parentCommentUser->username);
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testAddWithParentCommentNotSubscription(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $parent_id = 3;
+        $this->_login();
+        $this->_csrfSetUp();
+        $this->_assertCommentCount(4);
+        $this->post('comments/add/1/' . $parent_id . '?redirect=posts/index', [
+            'content' => 'hello',
+        ]);
+        $this->assertRedirectContains('posts');
+        $this->_assertCommentCount(5);
+        $parentCommentUser = $this->Users->get($parent_id);
+        $this->assertEquals(false, $parentCommentUser->reply_sbsc);
+        $this->assertNoMailSent();
+    }
+
+    /* comment as a guest */
+    public function testCommentAsAGuest(): void
+    {
+        $parent_id = 1;
+        $this->_csrfSetUp();
+        $this->post('comments/add/1/' . $parent_id . '?redirect=posts/index', [
+            'guestname' => 'aiueo',
+            'content' => 'hello',
+        ]);
+        $this->assertRedirectContains('posts');
+        $this->_assertCommentCount(5);
+        $parentCommentUser = $this->Users->get($parent_id);
+        $this->assertEquals(true, $parentCommentUser->reply_sbsc);
+        $this->assertMailSentTo($parentCommentUser->email);
+        $this->assertMailContainsHtml($parentCommentUser->username);
     }
 }
